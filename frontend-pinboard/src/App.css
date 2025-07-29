@@ -1,42 +1,434 @@
+/* Estilos para el elemento root */
 #root {
-  max-width: 1280px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  background: #d2b48c;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Contenedor principal de la app */
+.app-container {
+  width: 100%;
+  max-width: 1200px;
+  background: white;
+  min-height: 100vh;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
   margin: 0 auto;
-  padding: 2rem;
+}
+
+/* Barra de navegación superior */
+.navbar {
+  background: #e3f2fd;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #1976d2;
+}
+
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #1976d2;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.nav-link:hover {
+  background: #bbdefb;
+}
+
+/* Banner principal */
+.banner-principal {
+  background: #e3f2fd;
+  color: #1976d2;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Barra de estado y filtros */
+.barra-estado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  margin: 0 20px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.estado-izquierda {
+  display: flex;
+  gap: 15px;
+}
+
+.etiqueta-estado {
+  background: #4caf50;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn-filtrar {
+  background: #e3f2fd;
+  color: #1976d2;
+  border: 1px solid #1976d2;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.pinboard-container {
+  padding: 20px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.pinboard-title {
+  text-align: center;
+  color: #3b3b3b;
+  margin-bottom: 24px;
+  font-size: 2rem;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+/* Mejorar el formulario */
+.pinboard-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 20px 0;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.pinboard-form input,
+.pinboard-form textarea,
+.pinboard-form select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.pinboard-form input:focus,
+.pinboard-form textarea:focus,
+.pinboard-form select:focus {
+  outline: none;
+  border-color: #1976d2;
+}
+
+.pinboard-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.pinboard-form select {
+  background: white;
+}
+
+.pinboard-form button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 16px;
+}
+
+.pinboard-form button:hover {
+  background: #1565c0;
+}
+
+.btn-cancelar {
+  background: #666 !important;
+}
+
+.btn-cancelar:hover {
+  background: #555 !important;
+}
+
+.pinboard-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  max-width: 1000px;
+  margin: 20px 0;
+}
+
+.pinboard-list li {
+  background: #fff9c4;
+  border: 1px solid #e0c97f;
+  border-radius: 12px;
+  padding: 18px;
+  min-width: 220px;
+  min-height: 80px;
+  box-shadow: 2px 2px 8px rgba(180,138,60,0.08);
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  word-break: break-word;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Nuevos estilos para las tarjetas mejoradas */
+.tarjeta-ruta {
+  background: #fff9c4 !important;
+  border: 1px solid #e0c97f;
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 280px;
+  max-width: 350px;
+  box-shadow: 2px 4px 12px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.tarjeta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
 }
 
-.card {
-  padding: 2em;
+.tarjeta-titulo {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+  flex: 1;
+  text-align: left;
 }
 
-.read-the-docs {
-  color: #888;
+.icono-info {
+  font-size: 0.9rem;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.info-ruta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.ruta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: left;
+}
+
+.icono-desde, .icono-hasta {
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+.ruta-item div {
+  flex: 1;
+}
+
+.ruta-item strong {
+  font-size: 0.8rem;
+  color: #666;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.ruta-item div > div {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.tarjeta-descripcion {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
+  text-align: left;
+  margin: 8px 0;
+}
+
+.tarjeta-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+}
+
+.info-transporte {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.icono-transporte {
+  font-size: 0.9rem;
+}
+
+.tarjeta-botones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-detalles {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icono-favorito {
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #ffc107;
+}
+
+/* Sección de compartir nueva ruta */
+.seccion-compartir {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 30px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.compartir-contenido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.compartir-contenido span {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.btn-compartir {
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-compartir:hover {
+  background: #45a049;
+}
+
+/* Footer */
+.footer {
+  background: #f5f5f5;
+  color: #666;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #555;
+  margin-bottom: 24px;
+  width: 100%;
+  display: block;
+}
+
+.btn-agregar {
+  background: #43a047;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: auto;
+  min-width: 150px;
+}
+
+.btn-agregar:hover {
+  background: #388e3c;
 }

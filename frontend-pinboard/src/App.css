@@ -1,42 +1,611 @@
+/* Configuración base */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  background: #d2b48c;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAVEGACIÓN - Responsive navbar */
+.navbar {
+  background: #1976d2;
+  color: white;
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.nav-logo {
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  justify-content: center;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s;
+  font-size: 0.85rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Responsive: Desktop */
+@media (min-width: 768px) {
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px 24px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .nav-logo {
+    font-size: 1.2rem;
+    gap: 8px;
+    text-align: left;
+    justify-content: flex-start;
+  }
+  
+  .nav-links {
+    gap: 24px;
+    justify-content: flex-end;
+  }
+  
+  .nav-link {
+    gap: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+.nav-link:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* CONTENEDOR PRINCIPAL */
+.pinboard-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px 16px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+/* BANNER Y TÍTULO */
+.banner-principal {
+  background: none;
+  color: #1976d2;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #555;
+  margin-bottom: 24px;
+  font-size: 1rem;
+  padding: 0 16px;
+}
+
+/* FILTROS - Sistema de filtrado por transporte */
+.barra-estado {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  align-items: center;
+}
+
+.estado-izquierda {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+/* Filtros simples */
+.filtros-simples {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filtro-simple {
+  background: #e9ecef;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #495057;
+}
+
+.filtro-simple:hover {
+  background: #dee2e6;
+}
+
+.filtro-simple.activo {
+  background: #1976d2;
+  color: white;
+}
+
+/* Responsive: Desktop */
+@media (min-width: 768px) {
+  .barra-estado {
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 800px;
+    padding: 12px 0;
+    align-items: center;
+  }
+  
+  .estado-izquierda {
+    flex-direction: row;
+    gap: 16px;
+    text-align: left;
+  }
+  
+  .filtros-simples {
+    justify-content: flex-end;
   }
 }
 
-.card {
-  padding: 2em;
+/* Responsive: Desktop adicional */
+@media (min-width: 768px) {
+  .pinboard-container {
+    max-width: 1000px;
+    padding: 40px 24px;
+  }
+  
+  .banner-principal {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+  
+  .subtitulo {
+    margin-bottom: 32px;
+    font-size: 1.1rem;
+    padding: 0;
+  }
 }
 
-.read-the-docs {
-  color: #888;
+.etiqueta-estado {
+  color: #666;
+  font-size: 0.9rem;
 }
+
+.pinboard-title {
+  text-align: center;
+  color: #3b3b3b;
+  margin-bottom: 24px;
+  font-size: 2rem;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+/* FORMULARIO - Crear nueva ruta */
+.pinboard-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.pinboard-form input,
+.pinboard-form textarea,
+.pinboard-form select {
+  padding: 14px 16px;
+  border: 2px solid #e2d065;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  color: #2d3748;
+}
+
+.pinboard-form input:focus,
+.pinboard-form textarea:focus,
+.pinboard-form select:focus {
+  border-color: #2c5282;
+  background: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
+}
+
+.pinboard-form button {
+  background: #ffe066;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-weight: bold;
+  color: #b48a3c;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 1rem;
+}
+
+/* COMPONENTE CREAR RUTA - Estilo post-it amarillo */
+.crear-ruta-container {
+  width: 100%;
+  max-width: 100%;
+  padding: 20px;
+  background: #fff9c4;
+  border-radius: 16px;
+  margin: 20px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid #f0e68c;
+  position: relative;
+}
+
+.crear-ruta-titulo {
+  text-align: center;
+  color: #2c5282;
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.crear-ruta-descripcion {
+  text-align: center;
+  color: #4a5568;
+  margin-bottom: 28px;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.botones-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f0e68c;
+}
+
+.btn-guardar {
+  background: #43a047 !important;
+  color: white !important;
+  padding: 14px 24px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  border-radius: 8px !important;
+}
+
+.btn-guardar:hover {
+  background: #388e3c !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(67, 160, 71, 0.3);
+}
+
+.btn-cancelar {
+  background: #6c757d !important;
+  color: white !important;
+  padding: 14px 24px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  border-radius: 8px !important;
+}
+
+.btn-cancelar:hover {
+  background: #5a6268 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+/* Responsive: Desktop para formulario */
+@media (min-width: 768px) {
+  .pinboard-form {
+    max-width: 520px;
+    padding: 0;
+    margin: 0 auto;
+  }
+  
+  .crear-ruta-container {
+    max-width: 640px;
+    padding: 40px;
+    margin: 40px auto;
+  }
+  
+  .crear-ruta-titulo {
+    font-size: 2rem;
+  }
+  
+  .crear-ruta-descripcion {
+    font-size: 1.1rem;
+  }
+  
+  .botones-formulario {
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .btn-guardar,
+  .btn-cancelar {
+    min-width: 160px;
+    padding: 16px 32px !important;
+  }
+}
+
+.pinboard-form button:hover {
+  background: #ffd43b;
+}
+
+/* TARJETAS - Lista de rutas estilo post-it */
+.pinboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Estilo de cada tarjeta de ruta */
+.tarjeta-ruta {
+  background: #fff9c4;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  width: 100%;
+  min-height: 180px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+/* Responsive: Desktop para tarjetas */
+@media (min-width: 768px) {
+  .pinboard-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 1000px;
+  }
+  
+  .tarjeta-ruta {
+    width: 300px;
+    min-height: 200px;
+    padding: 20px;
+    gap: 12px;
+  }
+}
+
+.tarjeta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.tarjeta-titulo {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  flex: 1;
+}
+
+.icono-info {
+  font-size: 1.2rem;
+  margin-left: 8px;
+}
+
+/* Info-ruta responsive */
+.info-ruta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.ruta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1;
+}
+
+.ruta-item div {
+  font-size: 0.9rem;
+}
+
+.ruta-item strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Botones de las tarjetas */
+.btn-detalles {
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  justify-content: center;
+}
+
+.tarjeta-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.tarjeta-botones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+/* Elementos restantes */
+.tarjeta-descripcion {
+  font-size: 0.9rem;
+  color: #555;
+  flex: 1;
+  margin: 8px 0;
+}
+
+.info-transporte {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Responsive: Desktop para botones */
+@media (min-width: 768px) {
+  .info-ruta {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .btn-detalles {
+    width: auto;
+    padding: 6px 12px;
+  }
+  
+  .tarjeta-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.btn-detalles:hover {
+  background: #1565c0;
+}
+
+/* SECCIÓN COMPARTIR - Botón para agregar nueva ruta */
+.seccion-compartir {
+  margin-top: 32px;
+  padding: 24px 16px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  width: 100%;
+  max-width: 100%;
+}
+
+.compartir-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-compartir {
+  background: #43a047;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+  width: auto;
+  max-width: 280px;
+  justify-content: center;
+}
+
+/* Responsive: Desktop para sección compartir */
+@media (min-width: 768px) {
+  .seccion-compartir {
+    margin-top: 40px;
+    padding: 32px;
+    max-width: 600px;
+  }
+  
+  .compartir-contenido {
+    gap: 16px;
+  }
+  
+  .btn-compartir {
+    padding: 12px 24px;
+    font-size: 1rem;
+    gap: 8px;
+    max-width: none;
+  }
+}
+
+.btn-compartir:hover {
+  background: #388e3c;
+}
+
+/* FOOTER */
+.footer {
+  background: #f5f5f5;
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+

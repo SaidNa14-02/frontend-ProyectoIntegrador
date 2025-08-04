@@ -8,6 +8,7 @@ const Home = () =>{
         <div className='titulo-home'>
             <MdTour className="tour-icon" />
             <h1>Pinboard rutas seguras</h1>
+            <p>Decide por dónde, nosotros te cuidamos.</p>
         </div>
     );
 };

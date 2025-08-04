@@ -16,12 +16,12 @@
 .titulo-home h1 {
   font-size: 1.75rem;
   margin: 1rem 0 0;
-  color: var(--color-terciario);
+  color: var(--color-secundario);
 }
 
 .tour-icon {
   font-size: 4rem;
-  color: var(--color-terciario);
+  color: var(--color-secundario);
 }
 
 /* Estilos a partir de 375px (mobile‑first breakpoint) */

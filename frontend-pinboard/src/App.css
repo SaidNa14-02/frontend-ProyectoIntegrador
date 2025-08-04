@@ -1,4 +1,4 @@
-/* Estilos para el elemento root */
+/* Configuración base */
 #root {
   display: flex;
   justify-content: center;
@@ -10,121 +10,212 @@ body {
   background: #d2b48c;
   margin: 0;
   font-family: 'Segoe UI', Arial, sans-serif;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  min-height: 100vh;
 }
 
-/* Contenedor principal de la app */
 .app-container {
-  width: 100%;
-  max-width: 1200px;
-  background: white;
   min-height: 100vh;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Barra de navegación superior */
+/* NAVEGACIÓN - Responsive navbar */
 .navbar {
-  background: #e3f2fd;
-  padding: 15px 30px;
+  background: #1976d2;
+  color: white;
+  padding: 8px 16px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid #1976d2;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .nav-logo {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  color: #1976d2;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  text-align: center;
+  justify-content: center;
 }
 
 .nav-links {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
 }
 
 .nav-link {
+  color: white;
   text-decoration: none;
-  color: #1976d2;
-  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 8px 12px;
+  gap: 4px;
+  padding: 6px 10px;
   border-radius: 6px;
   transition: background 0.2s;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Responsive: Desktop */
+@media (min-width: 768px) {
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px 24px;
+  }
+  
+  .nav-logo {
+    font-size: 1.2rem;
+    gap: 8px;
+    text-align: left;
+    justify-content: flex-start;
+  }
+  
+  .nav-links {
+    gap: 24px;
+    justify-content: flex-end;
+  }
+  
+  .nav-link {
+    gap: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
 }
 
 .nav-link:hover {
-  background: #bbdefb;
+  background: rgba(255,255,255,0.1);
 }
 
-/* Banner principal */
-.banner-principal {
-  background: #e3f2fd;
-  color: #1976d2;
-  font-size: 2rem;
-  font-weight: bold;
-  padding: 20px;
-  margin: 20px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-/* Barra de estado y filtros */
-.barra-estado {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  margin: 0 20px;
-  background: #f5f5f5;
-  border-radius: 8px;
-}
-
-.estado-izquierda {
-  display: flex;
-  gap: 15px;
-}
-
-.etiqueta-estado {
-  background: #4caf50;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.btn-filtrar {
-  background: #e3f2fd;
-  color: #1976d2;
-  border: 1px solid #1976d2;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
+/* CONTENEDOR PRINCIPAL */
 .pinboard-container {
-  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px 16px;
   background: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
+}
+
+/* BANNER Y TÍTULO */
+.banner-principal {
+  background: none;
+  color: #1976d2;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #555;
+  margin-bottom: 24px;
+  font-size: 1rem;
+  padding: 0 16px;
+}
+
+/* FILTROS - Sistema de filtrado por transporte */
+.barra-estado {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  align-items: center;
+}
+
+.estado-izquierda {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+/* Filtros simples */
+.filtros-simples {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filtro-simple {
+  background: #e9ecef;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #495057;
+}
+
+.filtro-simple:hover {
+  background: #dee2e6;
+}
+
+.filtro-simple.activo {
+  background: #1976d2;
+  color: white;
+}
+
+/* Responsive: Desktop */
+@media (min-width: 768px) {
+  .barra-estado {
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 800px;
+    padding: 12px 0;
+    align-items: center;
+  }
+  
+  .estado-izquierda {
+    flex-direction: row;
+    gap: 16px;
+    text-align: left;
+  }
+  
+  .filtros-simples {
+    justify-content: flex-end;
+  }
+}
+
+/* Responsive: Desktop adicional */
+@media (min-width: 768px) {
+  .pinboard-container {
+    max-width: 1000px;
+    padding: 40px 24px;
+  }
+  
+  .banner-principal {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+  
+  .subtitulo {
+    margin-bottom: 32px;
+    font-size: 1.1rem;
+    padding: 0;
+  }
+}
+
+.etiqueta-estado {
+  color: #666;
+  font-size: 0.9rem;
 }
 
 .pinboard-title {
@@ -135,300 +226,386 @@ body {
   font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
-/* Mejorar el formulario */
+/* FORMULARIO - Crear nueva ruta */
 .pinboard-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin: 20px 0;
-  justify-content: center;
-  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
   width: 100%;
-  max-width: 500px;
-  padding: 30px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .pinboard-form input,
 .pinboard-form textarea,
 .pinboard-form select {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 6px;
+  padding: 14px 16px;
+  border: 2px solid #e2d065;
+  border-radius: 8px;
   font-size: 16px;
+  width: 100%;
   box-sizing: border-box;
-  transition: border-color 0.2s;
+  background: #ffffff;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  color: #2d3748;
 }
 
 .pinboard-form input:focus,
 .pinboard-form textarea:focus,
 .pinboard-form select:focus {
+  border-color: #2c5282;
+  background: #ffffff;
   outline: none;
-  border-color: #1976d2;
-}
-
-.pinboard-form textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.pinboard-form select {
-  background: white;
+  box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
 }
 
 .pinboard-form button {
-  background: #1976d2;
-  color: white;
+  background: #ffe066;
   border: none;
   border-radius: 6px;
-  padding: 12px 24px;
+  padding: 12px 16px;
   font-weight: bold;
+  color: #b48a3c;
   cursor: pointer;
   transition: background 0.2s;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
-.pinboard-form button:hover {
-  background: #1565c0;
+/* COMPONENTE CREAR RUTA - Estilo post-it amarillo */
+.crear-ruta-container {
+  width: 100%;
+  max-width: 100%;
+  padding: 20px;
+  background: #fff9c4;
+  border-radius: 16px;
+  margin: 20px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid #f0e68c;
+  position: relative;
+}
+
+.crear-ruta-titulo {
+  text-align: center;
+  color: #2c5282;
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.crear-ruta-descripcion {
+  text-align: center;
+  color: #4a5568;
+  margin-bottom: 28px;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.botones-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f0e68c;
+}
+
+.btn-guardar {
+  background: #43a047 !important;
+  color: white !important;
+  padding: 14px 24px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  border-radius: 8px !important;
+}
+
+.btn-guardar:hover {
+  background: #388e3c !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(67, 160, 71, 0.3);
 }
 
 .btn-cancelar {
-  background: #666 !important;
+  background: #6c757d !important;
+  color: white !important;
+  padding: 14px 24px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  border-radius: 8px !important;
 }
 
 .btn-cancelar:hover {
-  background: #555 !important;
+  background: #5a6268 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
 }
 
+/* Responsive: Desktop para formulario */
+@media (min-width: 768px) {
+  .pinboard-form {
+    max-width: 520px;
+    padding: 0;
+    margin: 0 auto;
+  }
+  
+  .crear-ruta-container {
+    max-width: 640px;
+    padding: 40px;
+    margin: 40px auto;
+  }
+  
+  .crear-ruta-titulo {
+    font-size: 2rem;
+  }
+  
+  .crear-ruta-descripcion {
+    font-size: 1.1rem;
+  }
+  
+  .botones-formulario {
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .btn-guardar,
+  .btn-cancelar {
+    min-width: 160px;
+    padding: 16px 32px !important;
+  }
+}
+
+.pinboard-form button:hover {
+  background: #ffd43b;
+}
+
+/* TARJETAS - Lista de rutas estilo post-it */
 .pinboard-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   list-style: none;
   padding: 0;
   width: 100%;
-  max-width: 1000px;
-  margin: 20px 0;
+  max-width: 100%;
 }
 
-.pinboard-list li {
-  background: #fff9c4;
-  border: 1px solid #e0c97f;
-  border-radius: 12px;
-  padding: 18px;
-  min-width: 220px;
-  min-height: 80px;
-  box-shadow: 2px 2px 8px rgba(180,138,60,0.08);
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  word-break: break-word;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-/* Nuevos estilos para las tarjetas mejoradas */
+/* Estilo de cada tarjeta de ruta */
 .tarjeta-ruta {
-  background: #fff9c4 !important;
-  border: 1px solid #e0c97f;
+  background: #fff9c4;
+  border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 20px;
-  min-width: 280px;
-  max-width: 350px;
-  box-shadow: 2px 4px 12px rgba(0,0,0,0.1);
-  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 16px;
+  width: 100%;
+  min-height: 180px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  position: relative;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+/* Responsive: Desktop para tarjetas */
+@media (min-width: 768px) {
+  .pinboard-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 1000px;
+  }
+  
+  .tarjeta-ruta {
+    width: 300px;
+    min-height: 200px;
+    padding: 20px;
+    gap: 12px;
+  }
 }
 
 .tarjeta-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  width: 100%;
 }
 
 .tarjeta-titulo {
+  margin: 0;
   font-size: 1.1rem;
   font-weight: bold;
-  margin: 0;
   color: #333;
   flex: 1;
-  text-align: left;
 }
 
 .icono-info {
-  font-size: 0.9rem;
-  opacity: 0.6;
-  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 8px;
 }
 
+/* Info-ruta responsive */
 .info-ruta {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 100%;
+  gap: 12px;
+  margin: 12px 0;
 }
 
 .ruta-item {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  text-align: left;
-}
-
-.icono-desde, .icono-hasta {
-  font-size: 0.8rem;
-  margin-top: 2px;
-}
-
-.ruta-item div {
   flex: 1;
 }
 
+.ruta-item div {
+  font-size: 0.9rem;
+}
+
 .ruta-item strong {
+  display: block;
+  margin-bottom: 4px;
   font-size: 0.8rem;
   color: #666;
-  display: block;
-  margin-bottom: 2px;
 }
 
-.ruta-item div > div {
-  font-size: 0.9rem;
-  color: #333;
-}
-
-.tarjeta-descripcion {
-  font-size: 0.9rem;
-  color: #555;
-  line-height: 1.4;
-  text-align: left;
-  margin: 8px 0;
+/* Botones de las tarjetas */
+.btn-detalles {
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  justify-content: center;
 }
 
 .tarjeta-footer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+  flex-direction: column;
+  gap: 12px;
   margin-top: auto;
-}
-
-.info-transporte {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.8rem;
-  color: #666;
-}
-
-.icono-transporte {
-  font-size: 0.9rem;
 }
 
 .tarjeta-botones {
   display: flex;
   align-items: center;
   gap: 8px;
+  justify-content: space-between;
 }
 
-.btn-detalles {
-  background: #1976d2;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-weight: 500;
+/* Elementos restantes */
+.tarjeta-descripcion {
   font-size: 0.9rem;
+  color: #555;
+  flex: 1;
+  margin: 8px 0;
+}
+
+.info-transporte {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #666;
 }
 
-.icono-favorito {
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: #ffc107;
+/* Responsive: Desktop para botones */
+@media (min-width: 768px) {
+  .info-ruta {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .btn-detalles {
+    width: auto;
+    padding: 6px 12px;
+  }
+  
+  .tarjeta-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
 }
 
-/* Sección de compartir nueva ruta */
+.btn-detalles:hover {
+  background: #1565c0;
+}
+
+/* SECCIÓN COMPARTIR - Botón para agregar nueva ruta */
 .seccion-compartir {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  margin: 30px 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-top: 32px;
+  padding: 24px 16px;
   text-align: center;
+  border-top: 1px solid #ddd;
+  width: 100%;
+  max-width: 100%;
 }
 
 .compartir-contenido {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-}
-
-.compartir-contenido span {
-  color: #666;
-  font-size: 0.95rem;
+  gap: 12px;
 }
 
 .btn-compartir {
-  background: #4caf50;
+  background: #43a047;
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 10px 16px;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: bold;
   cursor: pointer;
-  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 6px;
+  transition: background 0.2s;
+  width: auto;
+  max-width: 280px;
+  justify-content: center;
+}
+
+/* Responsive: Desktop para sección compartir */
+@media (min-width: 768px) {
+  .seccion-compartir {
+    margin-top: 40px;
+    padding: 32px;
+    max-width: 600px;
+  }
+  
+  .compartir-contenido {
+    gap: 16px;
+  }
+  
+  .btn-compartir {
+    padding: 12px 24px;
+    font-size: 1rem;
+    gap: 8px;
+    max-width: none;
+  }
 }
 
 .btn-compartir:hover {
-  background: #45a049;
-}
-
-/* Footer */
-.footer {
-  background: #f5f5f5;
-  color: #666;
-  text-align: center;
-  padding: 20px;
-  font-size: 0.9rem;
-  border-top: 1px solid #e0e0e0;
-}
-
-.subtitulo {
-  text-align: center;
-  color: #555;
-  margin-bottom: 24px;
-  width: 100%;
-  display: block;
-}
-
-.btn-agregar {
-  background: #43a047;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  cursor: pointer;
-  transition: background 0.2s;
-  width: auto;
-  min-width: 150px;
-}
-
-.btn-agregar:hover {
   background: #388e3c;
 }
+
+/* FOOTER */
+.footer {
+  background: #f5f5f5;
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './App.css'
+import CrearRuta from './CrearRuta'
 
+// Colores para las tarjetas estilo post-it
 const coloresPostIt = [
   "#fff9c4", // amarillo claro
   "#b3e5fc", // celeste claro
@@ -11,6 +13,7 @@ const coloresPostIt = [
 ];
 
 function App() {
+  // ESTADO - Datos de rutas y navegación
   const [pins, setPins] = useState([
     {
       titulo: "Ruta segura Carcelen - U Catolica",
@@ -49,30 +52,27 @@ function App() {
       favorito: false
     }
   ]);
-  const [nuevoPin, setNuevoPin] = useState({ titulo: '', desde: '', hasta: '', descripcion: '', transporte: 'Bus' });
-  const [pestana, setPestana] = useState("inicio"); // "inicio" o "agregar"
+  const [pestana, setPestana] = useState("index"); // Control de páginas
+  const [filtroActivo, setFiltroActivo] = useState("Todos"); // Sistema de filtros
 
-  const agregarPin = (e) => {
-    e.preventDefault();
-    if (
-      !nuevoPin.titulo.trim() ||
-      !nuevoPin.desde.trim() ||
-      !nuevoPin.hasta.trim() ||
-      !nuevoPin.descripcion.trim()
-    ) {
-      alert('Por favor completa todos los campos');
-      return;
-    }
-    
-    setPins([nuevoPin, ...pins]); // Agregar al inicio
-    setNuevoPin({ titulo: '', desde: '', hasta: '', descripcion: '', transporte: 'Bus' });
-    setPestana("inicio");
-    alert('Ruta creada exitosamente!');
+  // FUNCIONALIDAD - Filtrado de rutas por transporte
+  const rutasFiltradas = filtroActivo === "Todos" 
+    ? pins 
+    : pins.filter(pin => pin.transporte === filtroActivo);
+
+  // FUNCIONALIDAD - Gestión de rutas
+  const agregarNuevaRuta = (nuevaRuta) => {
+    setPins([nuevaRuta, ...pins]); // Agregar al inicio
+    setPestana("index"); // Volver a la página principal
+  };
+
+  const cancelarCreacion = () => {
+    setPestana("index");
   };
 
   return (
     <div className="app-container">
-      {/* Barra de navegación superior */}
+      {/* NAVEGACIÓN - Barra superior responsive */}
       <nav className="navbar">
         <div className="nav-logo">
           <span role="img" aria-label="pin">📌</span>
@@ -99,28 +99,49 @@ function App() {
       </nav>
 
       <div className="pinboard-container">
-        {/* Banner principal */}
+        {/* ENCABEZADO - Banner principal */}
         <div className="banner-principal">
           <span role="img" aria-label="mapa">🗺️</span>
           Tablero de Rutas Seguras
         </div>
         <p className="subtitulo">Descubre las mejores rutas compartidas por nuestra comunidad</p>
         
-        {/* Barra de estado y filtros */}
+        {/* FILTROS - Sistema de filtrado por transporte */}
         <div className="barra-estado">
           <div className="estado-izquierda">
-            <span className="etiqueta-estado">{pins.length} rutas disponibles</span>
+            <span className="etiqueta-estado">{rutasFiltradas.length} rutas disponibles</span>
             <span className="etiqueta-estado">Actualizado recientemente</span>
           </div>
-          <button className="btn-filtrar">
-            ▼ Filtrar
-          </button>
+          
+          {/* Botones de filtro */}
+          <div className="filtros-simples">
+            <button 
+              className={`filtro-simple ${filtroActivo === "Todos" ? "activo" : ""}`}
+              onClick={() => setFiltroActivo("Todos")}
+            >
+              Todos
+            </button>
+            <button 
+              className={`filtro-simple ${filtroActivo === "Bus" ? "activo" : ""}`}
+              onClick={() => setFiltroActivo("Bus")}
+            >
+              🚌 Bus
+            </button>
+            <button 
+              className={`filtro-simple ${filtroActivo === "Auto" ? "activo" : ""}`}
+              onClick={() => setFiltroActivo("Auto")}
+            >
+              🚗 Auto
+            </button>
+          </div>
         </div>
         
-        {pestana === "inicio" && (
+        {/* PÁGINA PRINCIPAL - Lista de rutas */}
+        {pestana === "index" && (
           <>
+            {/* Tarjetas de rutas estilo post-it */}
             <ul className="pinboard-list">
-              {pins.map((pin, index) => (
+              {rutasFiltradas.map((pin, index) => (
                 <li
                   key={index}
                   className="tarjeta-ruta"
@@ -174,11 +195,13 @@ function App() {
               ))}
             </ul>
             
-            {/* Sección de compartir nueva ruta */}
+            {/* Botón para agregar nueva ruta */}
             <div className="seccion-compartir">
               <div className="compartir-contenido">
                 <span role="img" aria-label="pregunta">❓</span>
                 <span>¿Conoces una ruta que no está aquí?</span>
+                <br />
+                <br />
                 <button 
                   className="btn-compartir"
                   onClick={() => setPestana("agregar")}
@@ -191,54 +214,16 @@ function App() {
           </>
         )}
 
+        {/* FORMULARIO - Crear nueva ruta */}
         {pestana === "agregar" && (
-          <form className="pinboard-form" onSubmit={agregarPin}>
-            <input
-              type="text"
-              value={nuevoPin.titulo}
-              onChange={e => setNuevoPin({ ...nuevoPin, titulo: e.target.value })}
-              placeholder="Título de la ruta"
-            />
-            <input
-              type="text"
-              value={nuevoPin.desde}
-              onChange={e => setNuevoPin({ ...nuevoPin, desde: e.target.value })}
-              placeholder="Desde"
-            />
-            <input
-              type="text"
-              value={nuevoPin.hasta}
-              onChange={e => setNuevoPin({ ...nuevoPin, hasta: e.target.value })}
-              placeholder="Hasta"
-            />
-            <textarea
-              value={nuevoPin.descripcion}
-              onChange={e => setNuevoPin({ ...nuevoPin, descripcion: e.target.value })}
-              placeholder="Descripción de la ruta"
-              rows="4"
-            />
-            <select
-              value={nuevoPin.transporte}
-              onChange={e => setNuevoPin({ ...nuevoPin, transporte: e.target.value })}
-            >
-              <option value="Bus">Bus</option>
-              <option value="Auto">Auto</option>
-              <option value="Metro">Metro</option>
-              <option value="Bici">Bici</option>
-            </select>
-            <button type="submit">Guardar Ruta</button>
-            <button
-              type="button"
-              className="btn-cancelar"
-              onClick={() => setPestana("inicio")}
-            >
-              Cancelar
-            </button>
-          </form>
+          <CrearRuta 
+            onAgregarRuta={agregarNuevaRuta}
+            onCancelar={cancelarCreacion}
+          />
         )}
       </div>
       
-      {/* Footer */}
+      {/* FOOTER */}
       <footer className="footer">
         ©2025 Pinboard Rutas Seguras - Movilidad sostenible y segura
       </footer>

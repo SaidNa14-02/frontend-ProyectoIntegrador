@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import './App.css'
 
+// COMPONENTE CREAR RUTA - Formulario para agregar nuevas rutas
 function CrearRuta({ onAgregarRuta, onCancelar }) {
+  // ESTADO - Datos del formulario
   const [nuevaRuta, setNuevaRuta] = useState({ 
     titulo: '', 
     desde: '', 
@@ -10,10 +12,11 @@ function CrearRuta({ onAgregarRuta, onCancelar }) {
     transporte: 'Bus' 
   });
 
+  // FUNCIONALIDAD - Envío del formulario con validación
   const manejarEnvio = (e) => {
     e.preventDefault();
     
-    // Validar que todos los campos estén llenos
+    // Validación de campos obligatorios
     if (
       !nuevaRuta.titulo.trim() ||
       !nuevaRuta.desde.trim() ||
@@ -24,7 +27,7 @@ function CrearRuta({ onAgregarRuta, onCancelar }) {
       return;
     }
     
-    // Agregar fecha actual
+    // Preparar datos con fecha automática
     const rutaCompleta = {
       ...nuevaRuta,
       fecha: new Date().toLocaleDateString('es-ES', { 
@@ -34,10 +37,10 @@ function CrearRuta({ onAgregarRuta, onCancelar }) {
       favorito: false
     };
     
-    // Llamar la función para agregar la ruta
+    // Comunicación con componente padre
     onAgregarRuta(rutaCompleta);
     
-    // Limpiar el formulario
+    // Reset del formulario
     setNuevaRuta({ titulo: '', desde: '', hasta: '', descripcion: '', transporte: 'Bus' });
     
     alert('Ruta creada exitosamente!');
@@ -50,7 +53,9 @@ function CrearRuta({ onAgregarRuta, onCancelar }) {
         Comparte una ruta segura que conozcas para ayudar a otros usuarios
       </p>
       
+      {/* FORMULARIO - Campos controlados con React */}
       <form className="pinboard-form" onSubmit={manejarEnvio}>
+        {/* Campo título */}
         <input
           type="text"
           value={nuevaRuta.titulo}
@@ -58,6 +63,7 @@ function CrearRuta({ onAgregarRuta, onCancelar }) {
           placeholder="Título de la ruta (ej: Ruta segura Norte - Centro)"
         />
         
+        {/* Campo origen */}
         <input
           type="text"
           value={nuevaRuta.desde}
@@ -65,6 +71,7 @@ function CrearRuta({ onAgregarRuta, onCancelar }) {
           placeholder="Punto de partida (ej: Carcelén bajo)"
         />
         
+        {/* Campo destino */}
         <input
           type="text"
           value={nuevaRuta.hasta}
@@ -72,6 +79,7 @@ function CrearRuta({ onAgregarRuta, onCancelar }) {
           placeholder="Destino (ej: Universidad Católica)"
         />
         
+        {/* Campo descripción */}
         <textarea
           value={nuevaRuta.descripcion}
           onChange={e => setNuevaRuta({ ...nuevaRuta, descripcion: e.target.value })}
@@ -79,6 +87,7 @@ function CrearRuta({ onAgregarRuta, onCancelar }) {
           rows="4"
         />
         
+        {/* Selector de transporte */}
         <select
           value={nuevaRuta.transporte}
           onChange={e => setNuevaRuta({ ...nuevaRuta, transporte: e.target.value })}
@@ -89,6 +98,7 @@ function CrearRuta({ onAgregarRuta, onCancelar }) {
           <option value="Bici">Bicicleta</option>
         </select>
         
+        {/* Botones de acción */}
         <div className="botones-formulario">
           <button type="submit" className="btn-guardar">
             Guardar Ruta

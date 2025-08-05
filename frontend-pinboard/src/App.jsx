@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import './App.css'
 import CrearRuta from './CrearRuta'
+import RutasCompartidas from './RutasCompartidas'
 
-// Colores para las tarjetas estilo post-it
+// CONFIGURACIÓN - Colores para tarjetas estilo post-it
 const coloresPostIt = [
   "#fff9c4", // amarillo claro
   "#b3e5fc", // celeste claro
@@ -12,8 +13,9 @@ const coloresPostIt = [
   "#d1c4e9", // lila claro
 ];
 
+// COMPONENTE PRINCIPAL - App
 function App() {
-  // ESTADO - Datos de rutas y navegación
+  // ESTADO - Gestión de rutas y navegación
   const [pins, setPins] = useState([
     {
       titulo: "Ruta segura Carcelen - U Catolica",
@@ -52,10 +54,10 @@ function App() {
       favorito: false
     }
   ]);
-  const [pestana, setPestana] = useState("index"); // Control de páginas
-  const [filtroActivo, setFiltroActivo] = useState("Todos"); // Sistema de filtros
+  const [pestana, setPestana] = useState("index"); // Control de navegación: "index", "agregar", "compartidas"
+  const [filtroActivo, setFiltroActivo] = useState("Todos"); // Control de filtros activos
 
-  // FUNCIONALIDAD - Filtrado de rutas por transporte
+  // FUNCIONALIDAD - Sistema de filtrado por tipo de transporte
   const rutasFiltradas = filtroActivo === "Todos" 
     ? pins 
     : pins.filter(pin => pin.transporte === filtroActivo);
@@ -79,22 +81,40 @@ function App() {
           Pinboard Rutas Seguras
         </div>
         <div className="nav-links">
-          <a href="#" className="nav-link">
+          <button 
+            className="nav-link"
+            onClick={() => setPestana("index")}
+          >
             <span role="img" aria-label="casa">🏠</span>
             Inicio
-          </a>
-          <a href="#" className="nav-link">
+          </button>
+          <button 
+            className="nav-link"
+            onClick={() => alert("Funcionalidad en desarrollo")}
+          >
             <span role="img" aria-label="mapa">🗺️</span>
             Mis Rutas
-          </a>
-          <a href="#" className="nav-link">
-            <span role="img" aria-label="agregar">➕</span>
-            + Agregar Ruta
-          </a>
-          <a href="#" className="nav-link">
+          </button>
+          <button 
+            className="nav-link"
+            onClick={() => setPestana("compartidas")}
+          >
+            <span role="img" aria-label="mundo">🌍</span>
+            Viajes Compartidos
+          </button>
+          <button
+            className="nav-link"
+            onClick={() => setPestana("agregar")}>
+              <span role="img" aria-label="agregar">➕</span>
+              + Agregar Ruta
+          </button>
+          <button 
+            className="nav-link"
+            onClick={() => alert("Funcionalidad en desarrollo")}
+          >
             <span role="img" aria-label="perfil">👤</span>
             Perfil
-          </a>
+          </button>
         </div>
       </nav>
 
@@ -106,39 +126,39 @@ function App() {
         </div>
         <p className="subtitulo">Descubre las mejores rutas compartidas por nuestra comunidad</p>
         
-        {/* FILTROS - Sistema de filtrado por transporte */}
-        <div className="barra-estado">
-          <div className="estado-izquierda">
-            <span className="etiqueta-estado">{rutasFiltradas.length} rutas disponibles</span>
-            <span className="etiqueta-estado">Actualizado recientemente</span>
-          </div>
-          
-          {/* Botones de filtro */}
-          <div className="filtros-simples">
-            <button 
-              className={`filtro-simple ${filtroActivo === "Todos" ? "activo" : ""}`}
-              onClick={() => setFiltroActivo("Todos")}
-            >
-              Todos
-            </button>
-            <button 
-              className={`filtro-simple ${filtroActivo === "Bus" ? "activo" : ""}`}
-              onClick={() => setFiltroActivo("Bus")}
-            >
-              🚌 Bus
-            </button>
-            <button 
-              className={`filtro-simple ${filtroActivo === "Auto" ? "activo" : ""}`}
-              onClick={() => setFiltroActivo("Auto")}
-            >
-              🚗 Auto
-            </button>
-          </div>
-        </div>
-        
         {/* PÁGINA PRINCIPAL - Lista de rutas */}
         {pestana === "index" && (
           <>
+            {/* FILTROS - Sistema de filtrado por transporte */}
+            <div className="barra-estado">
+              <div className="estado-izquierda">
+                <span className="etiqueta-estado">{rutasFiltradas.length} rutas disponibles</span>
+                <span className="etiqueta-estado">Actualizado recientemente</span>
+              </div>
+              
+              {/* Botones de filtro */}
+              <div className="filtros-simples">
+                <button 
+                  className={`filtro-simple ${filtroActivo === "Todos" ? "activo" : ""}`}
+                  onClick={() => setFiltroActivo("Todos")}
+                >
+                  Todos
+                </button>
+                <button 
+                  className={`filtro-simple ${filtroActivo === "Bus" ? "activo" : ""}`}
+                  onClick={() => setFiltroActivo("Bus")}
+                >
+                  🚌 Bus
+                </button>
+                <button 
+                  className={`filtro-simple ${filtroActivo === "Auto" ? "activo" : ""}`}
+                  onClick={() => setFiltroActivo("Auto")}
+                >
+                  🚗 Auto
+                </button>
+              </div>
+            </div>
+
             {/* Tarjetas de rutas estilo post-it */}
             <ul className="pinboard-list">
               {rutasFiltradas.map((pin, index) => (
@@ -219,6 +239,13 @@ function App() {
           <CrearRuta 
             onAgregarRuta={agregarNuevaRuta}
             onCancelar={cancelarCreacion}
+          />
+        )}
+
+        {/* VIAJES COMPARTIDOS - Nueva página */}
+        {pestana === "compartidas" && (
+          <RutasCompartidas 
+            onVolver={() => setPestana("index")}
           />
         )}
       </div>

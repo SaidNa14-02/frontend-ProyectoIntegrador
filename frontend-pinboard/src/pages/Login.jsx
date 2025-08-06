@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Image from "../assets/bombilla.jpg";
+import Image from "../assets/Bombilla.png";
+import Logo from "../assets/Logo.png"
 import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa6";
 import "../styles/Login.css";
@@ -57,11 +58,11 @@ const Login = () => {
       <div className="login-right">
         <div className="login-right-container">
           <div className="login-logo">
-            <img src={Logo} alt="" />
+            <img src={Logo} alt="Logo" />
           </div>
           <div className="login-center">
             <h2>Bienvenido,Hola Mundo!</h2>
-            <p>Ingresa tus Dats</p>
+            <p>Ingresa tus Datos</p>
             <form onSubmit={handleLoginSubmit}>
               <input type="email" placeholder="Email" name="email" />
               <div className="pass-input-div">
@@ -87,7 +88,7 @@ const Login = () => {
 
               <div className="login-center-options">
                 <a href="#" className="forgot-pass-link">
-                  Forgot password?
+                  Olvide mi Contraseña?
                 </a>  
                 <button type="submit">Log In</button>
               </div>

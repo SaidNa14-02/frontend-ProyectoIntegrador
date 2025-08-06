@@ -2,6 +2,8 @@ import { useState } from 'react'
 import './App.css'
 import CrearRuta from './CrearRuta'
 import RutasCompartidas from './RutasCompartidas'
+import { useNavigate } from "react-router-dom";
+
 
 // CONFIGURACIÓN - Colores para tarjetas estilo post-it
 const coloresPostIt = [
@@ -15,6 +17,7 @@ const coloresPostIt = [
 
 // COMPONENTE PRINCIPAL - App
 function App() {
+  const navigate = useNavigate();
   // ESTADO - Gestión de rutas y navegación
   const [pins, setPins] = useState([
     {
@@ -72,8 +75,12 @@ function App() {
     setPestana("index");
   };
 
+  const handleClick = (e) => {
+  const comprobacionesApp = e.target.closest("button, a, input, select, textarea");
+  if (!comprobacionesApp) navigate("/login");
+};
   return (
-    <div className="app-container">
+    <div className="app-container"  onClick={handleClick}>
       {/* NAVEGACIÓN - Barra superior responsive */}
       <nav className="navbar">
         <div className="nav-logo">
@@ -106,7 +113,7 @@ function App() {
             className="nav-link"
             onClick={() => setPestana("agregar")}>
               <span role="img" aria-label="agregar">➕</span>
-              + Agregar Ruta
+               Agregar Ruta
           </button>
           <button 
             className="nav-link"

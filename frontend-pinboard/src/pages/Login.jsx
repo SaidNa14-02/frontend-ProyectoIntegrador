@@ -45,11 +45,11 @@ const Login = () => {
 
   useEffect(() => {
     if(token !== ""){
-      toast.success("Tu estas Logeadon");
+      toast.success("Tu estas Logeado");
       navigate("/");
     }
   }, []);
-
+//refactorizar 
   return (
     <div className="login-main">
       <div className="login-left">

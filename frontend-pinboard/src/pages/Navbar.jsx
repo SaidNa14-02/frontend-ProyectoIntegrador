@@ -2,7 +2,22 @@ import React, { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 import '../styles/Navbar.css';
+// #region Dropdown
+export const DropLinks= ()=>{
+    return(
+        <div className="perfil_dropdown">
+            <ul className="elementos_perfil">
+                <li>Mi perfil</li>
+                <li>Historial de viajes</li>
+                <li>Historial de rutas</li>
+            </ul>
+        </div>
+    )
+}
+//#endregion
 
+// #region Navbar secundario
+//Navbar es un secundario,Navbar principal conlleva toda la logica 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
@@ -27,5 +42,5 @@ const Navbar = () => {
     </nav>
   );
 };
-
+//#endregion
 export default Navbar;

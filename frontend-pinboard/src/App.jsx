@@ -74,10 +74,14 @@ function App() {
   const cancelarCreacion = () => {
     setPestana("index");
   };
-
+  
+  //FUNCIONALIDAD -Cualquier click en la pagina devuelve a login
   const handleClick = (e) => {
   const comprobacionesApp = e.target.closest("button, a, input, select, textarea");
   if (!comprobacionesApp) navigate("/login");
+
+    //FUNCIONALIDAD - Despliegue de Dropdown perfil
+    const [openProfile,setOpenProfile]=useState(false)
 };
   return (
     <div className="app-container"  onClick={handleClick}>
@@ -117,7 +121,7 @@ function App() {
           </button>
           <button 
             className="nav-link"
-            onClick={() => alert("Funcionalidad en desarrollo")}
+            onClick={() => setOpenProfile((prev)=>!prev)}
           >
             <span role="img" aria-label="perfil">👤</span>
             Perfil

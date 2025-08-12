@@ -1,3 +1,33 @@
+.perfil-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 100;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.elementos_perfils {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.elementos_perfils li {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.elementos_perfil li:hover {
+  background-color: #f2f2f2;
+}
+
+
+/*
 .navbar {
   position: relative;
   padding: 1rem;
@@ -46,7 +76,7 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* En pantallas ≥480px, mostrar menú horizontal */
+//En pantallas ≥480px, mostrar menú horizontal 
 @media (min-width: 375px) {
   .menu-btn {
     display: none;
@@ -64,3 +94,4 @@
     border-bottom: none;
   }
 }
+*/

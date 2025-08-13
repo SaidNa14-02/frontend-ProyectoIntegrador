@@ -20,7 +20,6 @@ function AppRouter() {
         {/* Rutas públicas - accesibles sin autenticación */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

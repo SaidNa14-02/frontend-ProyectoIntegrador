@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchWeatherApi } from 'openmeteo';
 import '../styles/Clima.css';
-// Badge de clima con datos de Open‑Meteo
-
-/*
- Guía rápida para la expo:
- 1) Qué es: Un badge compacto que muestra el clima actual usando Open‑Meteo.
- 2) Ubicación: Si la prop useGeo está activa, pide permiso; si aceptas usa tu posición, si no usa las coords que vienen desde App.jsx (fallback).
- 3) Datos: Se consulta la serie horaria de temperatura (temperature_2m) y se elige el valor de la hora actual según tu zona horaria.
- 4) Diseño: Solo estiliza con Clima.css; no toca el resto de la UI.
- 5) Fallback y debug: Si algo falla, muestra 18°C “Parcial”; con debug imprime en consola la respuesta para verificar.
-*/
 
 const ICONOS = {
   soleado: '☀️',
@@ -27,23 +17,16 @@ const LABELS = {
 };
 
 function ClimaOpenMeteo({ lat, lon, ciudad, size = 'sm', estadoFijo, debug = false, useGeo = false }) {
-  // - useGeo: activa geolocalización del navegador
-  // - ciudad: texto mostrado junto al estado
-  // Estado
   const [temp, setTemp] = useState(null);
   const [estado, setEstado] = useState(estadoFijo || 'parcial');
   const [error, setError] = useState(null);
-  // Coordenadas (props o fallback interno)
   const [coords, setCoords] = useState({
     lat: typeof lat === 'number' ? lat : -2.1700,
     lon: typeof lon === 'number' ? lon : -79.9224,
   });
-  const [geoLocked, setGeoLocked] = useState(false);
-  // Geolocalización resuelta (éxito o error)
+  const [geoLocked, setGeoLocked] = useState(false); 
   const [geoResolved, setGeoResolved] = useState(!useGeo);
 
-  // Geolocalización (opcional)
-  // permite/deniega el permiso y muestra cómo cambia entre tu posición y el fallback.
   useEffect(() => {
     if (!useGeo) return;
     if (typeof navigator === 'undefined' || !navigator.geolocation) {
@@ -70,10 +53,9 @@ function ClimaOpenMeteo({ lat, lon, ciudad, size = 'sm', estadoFijo, debug = fal
       },
       { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
     );
-    return () => { /* no-op, getCurrentPosition no mantiene watch */ };
+    return () => { };
   }, [useGeo, debug]);
 
-  // Props → coords (si no hay geolocalización)
   useEffect(() => {
     if (!useGeo) {
       const next = {
@@ -84,13 +66,11 @@ function ClimaOpenMeteo({ lat, lon, ciudad, size = 'sm', estadoFijo, debug = fal
     }
   }, [lat, lon, useGeo]);
 
-  // Cargar clima (Open‑Meteo)
-  // Tip de demo: activa la prop debug para ver en consola el índice horario usado y la temperatura elegida.
   useEffect(() => {
     let cancel = false;
     async function cargar() {
       try {
-        if (useGeo && !geoResolved) return; // esperar resolución de geolocalización
+        if (useGeo && !geoResolved) return;
         setError(null);
         const params = {
           latitude: coords.lat,
@@ -98,18 +78,18 @@ function ClimaOpenMeteo({ lat, lon, ciudad, size = 'sm', estadoFijo, debug = fal
           hourly: 'temperature_2m',
         };
         const url = 'https://api.open-meteo.com/v1/forecast';
-  const responses = await fetchWeatherApi(url, params);
-  const response = responses[0];
-  const latitude = response.latitude();
-  const longitude = response.longitude();
-  const elevation = response.elevation();
-  const utcOffsetSeconds = response.utcOffsetSeconds();
+        const responses = await fetchWeatherApi(url, params);
+        const response = responses[0];
+        const latitude = response.latitude();
+        const longitude = response.longitude();
+        const elevation = response.elevation();
+        const utcOffsetSeconds = response.utcOffsetSeconds();
         const hourly = response.hourly();
-    const temps = hourly.variables(0).valuesArray();
-    const start = Number(hourly.time()) + utcOffsetSeconds; // seg epoch local
-    const interval = hourly.interval(); // seg entre muestras
+        const temps = hourly.variables(0).valuesArray(); 
+        const start = Number(hourly.time()) + utcOffsetSeconds; 
+        const interval = hourly.interval(); 
         const nowSec = Math.floor(Date.now() / 1000);
-    let idx = Math.floor((nowSec - start) / interval);
+        let idx = Math.floor((nowSec - start) / interval); 
         if (idx < 0) idx = 0;
         if (idx >= temps.length) idx = temps.length - 1;
 
@@ -129,7 +109,6 @@ function ClimaOpenMeteo({ lat, lon, ciudad, size = 'sm', estadoFijo, debug = fal
         if (!cancel) {
           setTemp(t);
           if (!estadoFijo) {
-            // Heurística simple por temperatura
             const nuevoEstado = t >= 26 ? 'soleado' : t >= 18 ? 'parcial' : t >= 12 ? 'nublado' : 'lluvia';
             setEstado(nuevoEstado);
           }
@@ -140,7 +119,6 @@ function ClimaOpenMeteo({ lat, lon, ciudad, size = 'sm', estadoFijo, debug = fal
           if (debug) {
             console.error('[Clima][OpenMeteo] ERROR', e);
           }
-          // Fallback visual
           setTemp(null);
           setEstado(estadoFijo || 'parcial');
         }
@@ -150,7 +128,7 @@ function ClimaOpenMeteo({ lat, lon, ciudad, size = 'sm', estadoFijo, debug = fal
     return () => { cancel = true; };
   }, [coords.lat, coords.lon, estadoFijo, debug, useGeo, geoResolved]);
 
-  const tempMostrar = temp ?? 18; // fallback amigable
+  const tempMostrar = temp ?? 18;
   const icono = ICONOS[estado] || ICONOS.parcial;
   const label = LABELS[estado] || LABELS.parcial;
 

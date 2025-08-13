@@ -16,7 +16,6 @@ const coloresPostIt = [
   "#d1c4e9", // lila claro
 ];
 
-// COMPONENTE PRINCIPAL - App
 function App() {
   const navigate = useNavigate();
   // ESTADO - Gestión de rutas y navegación

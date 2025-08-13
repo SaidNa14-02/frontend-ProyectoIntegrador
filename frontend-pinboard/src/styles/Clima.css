@@ -1,0 +1,71 @@
+.clima-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb; /* gris claro */
+  background-color: #ffffff; /* fondo básico */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); /* sombra simple */
+  color: #222222; /* texto oscuro simple */
+}
+
+.clima-badge .icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.clima-badge .info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.clima-badge .temp {
+  font-weight: 700;
+}
+
+.clima-badge .meta {
+  font-size: 12px;
+  color: #555555; /* gris medio */
+}
+
+/* Tamaños */
+.clima-badge.sm { padding: 4px 8px; }
+.clima-badge.sm .temp { font-size: 0.9rem; }
+.clima-badge.sm .meta { display: none; }
+
+.clima-badge.md { padding: 6px 10px; }
+.clima-badge.md .temp { font-size: 1rem; }
+.clima-badge.md .meta { font-size: 12px; }
+
+.clima-badge.lg { padding: 8px 12px; }
+.clima-badge.lg .temp { font-size: 1.1rem; }
+.clima-badge.lg .meta { font-size: 13px; }
+
+/* Variantes por estado (colores básicos) */
+.clima-badge.soleado {
+  background-color: #fff4c2; /* amarillo claro */
+  border-color: #ffd56a; /* borde amarillo */
+}
+
+.clima-badge.nublado {
+  background-color: #eef2f7; /* gris azulado claro */
+  border-color: #cfd8e3; /* borde gris */
+}
+
+.clima-badge.lluvia {
+  background-color: #e6f3ff; /* celeste claro */
+  border-color: #a5d0ff; /* borde celeste */
+}
+
+.clima-badge.parcial {
+  background-color: #fff0c2; /* amarillo suave */
+  border-color: #f7ce63; /* borde amarillo medio */
+}
+
+/* Acento al pasar el mouse */
+.clima-badge:hover {
+  border-color: #9ca3af; /* gris más notorio */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12); /* sombra un poco más fuerte */
+}

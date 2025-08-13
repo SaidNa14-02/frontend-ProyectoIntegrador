@@ -5,12 +5,11 @@ import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa6";
 import "../styles/Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [ token, setToken ] = useState(JSON.parse(localStorage.getItem("auth")) || "");
+  const [ token ] = useState(JSON.parse(localStorage.getItem("auth")) || "");
   const navigate = useNavigate();
 
 
@@ -20,24 +19,11 @@ const Login = () => {
     let password = e.target.password.value;
 
     if (email.length > 0 && password.length > 0) {
-      const formData = {
-        email,
-        password,
-      };
-      try {
-        const response = await axios.post(
-            /*
-          "Se debe colocar el http para conexion",
-          */
-          formData
-        );
-        localStorage.setItem('auth', JSON.stringify(response.data.token));
-        toast.success("Login successfull");
-        navigate("/");
-      } catch (err) {
-        console.log(err);
-        toast.error(err.message);
-      }
+      // Simulación local: guardar un token falso y navegar
+      const mockToken = "mock-dev-token";
+      localStorage.setItem('auth', JSON.stringify(mockToken));
+      toast.success("Login simulado");
+      navigate("/");
     } else {
       toast.error("Por favor llena todos los campos");
     }

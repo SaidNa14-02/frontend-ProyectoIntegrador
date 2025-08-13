@@ -3,6 +3,7 @@ import './App.css'
 import CrearRuta from './CrearRuta'
 import RutasCompartidas from './RutasCompartidas'
 import { useNavigate } from "react-router-dom";
+import ClimaOpenMeteo from './components/ClimaOpenMeteo'
 
 
 // CONFIGURACIÓN - Colores para tarjetas estilo post-it
@@ -124,6 +125,8 @@ function App() {
             <span role="img" aria-label="perfil">👤</span>
             Perfil
           </button>
+          {/* Clima en navbar (Open-Meteo con geolocalización y fallback Guayaquil) */}
+          <ClimaOpenMeteo lat={-2.1700} lon={-79.9224} ciudad="Guayaquil" size="sm" useGeo />
           
           {/* Dropdown de perfil */}
           {openProfile && (
@@ -158,11 +161,13 @@ function App() {
 
       <div className="pinboard-container">
         {/* ENCABEZADO - Banner principal */}
-        <div className="banner-principal">
-          <span role="img" aria-label="mapa">🗺️</span>
-          Tablero de Rutas Seguras
+        <div className="banner-principal" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <span role="img" aria-label="mapa">🗺️</span>{' '}
+            Tablero de Rutas Seguras
+          </div>
         </div>
-        <p className="subtitulo">Descubre las mejores rutas compartidas por nuestra comunidad</p>
+  <p className="subtitulo">Descubre las mejores rutas compartidas por nuestra comunidad</p>
         
         {/* PÁGINA PRINCIPAL - Lista de rutas */}
         {pestana === "index" && (
@@ -193,6 +198,18 @@ function App() {
                   onClick={() => setFiltroActivo("Auto")}
                 >
                   🚗 Auto
+                </button>
+                <button 
+                  className={`filtro-simple ${filtroActivo === "Metro" ? "activo" : ""}`}
+                  onClick={() => setFiltroActivo("Metro")}
+                >
+                  🚇 Metro
+                </button>
+                <button 
+                  className={`filtro-simple ${filtroActivo === "Bici" ? "activo" : ""}`}
+                  onClick={() => setFiltroActivo("Bici")}
+                >
+                  🚲 Bici
                 </button>
               </div>
             </div>
@@ -235,7 +252,7 @@ function App() {
                   <div className="tarjeta-footer">
                     <div className="info-transporte">
                       <span className="icono-transporte" role="img" aria-label={pin.transporte}>
-                        {pin.transporte === "Bus" ? "🚌" : "🚗"}
+                        {{ Bus: "🚌", Auto: "🚗", Metro: "🚇", Bici: "🚲" }[pin.transporte] || "🚗"}
                       </span>
                       {pin.transporte} • {pin.fecha}
                     </div>

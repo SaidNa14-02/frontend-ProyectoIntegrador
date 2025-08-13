@@ -72,7 +72,7 @@ const Register = () => {
             <img src={Logo} alt="" />
           </div>
           <div className="register-center">
-            <h2>Binevenido al Registro!</h2>
+            <h2>Bienvenido al Registro!</h2>
             <p>Ingrese sus Datos para Comenzar</p>
             <form onSubmit={handleRegisterSubmit}>
             <input type="text" placeholder="Name" name="name" required={true} />

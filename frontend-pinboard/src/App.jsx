@@ -4,6 +4,7 @@ import CrearRuta from './CrearRuta'
 import RutasCompartidas from './RutasCompartidas'
 import { useNavigate } from "react-router-dom";
 import ClimaOpenMeteo from './components/ClimaOpenMeteo'
+import { DropLinks } from './pages/Navbar';
 
 
 // CONFIGURACIÓN - Colores para tarjetas estilo post-it
@@ -124,37 +125,11 @@ function App() {
             <span role="img" aria-label="perfil">👤</span>
             Perfil
           </button>
+
+          {openProfile && <DropLinks />}
           {/* Clima en navbar (Open-Meteo con geolocalización y fallback Guayaquil) */}
           <ClimaOpenMeteo lat={-2.1700} lon={-79.9224} ciudad="Guayaquil" size="sm" useGeo />
           
-          {/* Dropdown de perfil */}
-          {openProfile && (
-            <div className="profile-dropdown" style={{
-              position: 'absolute',
-              top: '100%',
-              right: '0',
-              backgroundColor: 'white',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              padding: '10px',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              zIndex: 1000
-            }}>
-              <button 
-                onClick={handleLogout}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  padding: '8px 16px',
-                  cursor: 'pointer',
-                  color: '#ff4444'
-                }}
-              >
-                <span role="img" aria-label="logout">🚪</span>
-                Cerrar Sesión
-              </button>
-            </div>
-          )}
         </div>
       </nav>
 

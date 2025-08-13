@@ -7,7 +7,7 @@ export const DropLinks= ()=>{
     return(
         <div className="perfil_dropdown">
             <ul className="elementos_perfil">
-                <li>Mi perfil</li>
+                <li><Link to="/perfil">Ver perfil</Link></li>
                 <li>Historial de viajes</li>
                 <li>Historial de rutas</li>
             </ul>

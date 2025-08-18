@@ -17,12 +17,12 @@ const Login = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    let correo = e.target.email.value;
+    let email = e.target.email.value;
     let password = e.target.password.value;
 
-    if (correo && password) {
+    if (email && password) {
       const formData = {
-         email: correo, 
+         email: email, 
          password
         };
       try {

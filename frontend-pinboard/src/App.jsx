@@ -1,8 +1,14 @@
-import { useState } from 'react'
+import React,{ useState } from 'react'
 import './App.css'
 import CrearRuta from './CrearRuta'
 import RutasCompartidas from './RutasCompartidas'
-import { useNavigate } from "react-router-dom";
+import MisRutas from './pages/MisRutas'
+import { useLocation, useNavigate } from "react-router-dom";
+import ClimaOpenMeteo from './components/ClimaOpenMeteo'
+import { DropLinks } from './pages/Navbar';
+import { ToastContainer } from 'react-toastify';
+import Reserva from './pages/Reserva'
+
 
 
 // CONFIGURACIÓN - Colores para tarjetas estilo post-it
@@ -15,9 +21,10 @@ const coloresPostIt = [
   "#d1c4e9", // lila claro
 ];
 
-// COMPONENTE PRINCIPAL - App
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isReserva = location.pathname === '/reserva';
   // ESTADO - Gestión de rutas y navegación
   const [pins, setPins] = useState([
     {
@@ -57,13 +64,17 @@ function App() {
       favorito: false
     }
   ]);
-  const [pestana, setPestana] = useState("index"); // Control de navegación: "index", "agregar", "compartidas"
+  const [pestana, setPestana] = useState("index"); // Control de navegación: "index", "agregar", "compartidas", "misrutas"
   const [filtroActivo, setFiltroActivo] = useState("Todos"); // Control de filtros activos
-
+  const [openProfile, setOpenProfile] = useState(false); // Control del dropdown de perfil
+ 
   // FUNCIONALIDAD - Sistema de filtrado por tipo de transporte
   const rutasFiltradas = filtroActivo === "Todos" 
     ? pins 
     : pins.filter(pin => pin.transporte === filtroActivo);
+
+  // Derivada: mis rutas publicadas (creadas por mí en esta sesión)
+  const misRutas = pins.filter(pin => pin.own === true);
 
   // FUNCIONALIDAD - Gestión de rutas
   const agregarNuevaRuta = (nuevaRuta) => {
@@ -74,17 +85,10 @@ function App() {
   const cancelarCreacion = () => {
     setPestana("index");
   };
-  
-  //FUNCIONALIDAD -Cualquier click en la pagina devuelve a login
-  const handleClick = (e) => {
-  const comprobacionesApp = e.target.closest("button, a, input, select, textarea");
-  if (!comprobacionesApp) navigate("/login");
 
-    //FUNCIONALIDAD - Despliegue de Dropdown perfil
-    const [openProfile,setOpenProfile]=useState(false)
-};
+
   return (
-    <div className="app-container"  onClick={handleClick}>
+    <div className="app-container">
       {/* NAVEGACIÓN - Barra superior responsive */}
       <nav className="navbar">
         <div className="nav-logo">
@@ -92,6 +96,7 @@ function App() {
           Pinboard Rutas Seguras
         </div>
         <div className="nav-links">
+          
           <button 
             className="nav-link"
             onClick={() => setPestana("index")}
@@ -99,13 +104,15 @@ function App() {
             <span role="img" aria-label="casa">🏠</span>
             Inicio
           </button>
+
           <button 
             className="nav-link"
-            onClick={() => alert("Funcionalidad en desarrollo")}
+            onClick={() => setPestana("misrutas")}
           >
             <span role="img" aria-label="mapa">🗺️</span>
             Mis Rutas
           </button>
+
           <button 
             className="nav-link"
             onClick={() => setPestana("compartidas")}
@@ -113,29 +120,47 @@ function App() {
             <span role="img" aria-label="mundo">🌍</span>
             Viajes Compartidos
           </button>
+
           <button
             className="nav-link"
             onClick={() => setPestana("agregar")}>
               <span role="img" aria-label="agregar">➕</span>
                Agregar Ruta
           </button>
+
           <button 
             className="nav-link"
-            onClick={() => setOpenProfile((prev)=>!prev)}
+            onClick={() => setOpenProfile(true)}
           >
             <span role="img" aria-label="perfil">👤</span>
             Perfil
           </button>
+
+          {openProfile && <DropLinks setOpenProfile={setOpenProfile} />}
+
+          {/* Clima en navbar (Open-Meteo con geolocalización y fallback Guayaquil) */}
+          {/* Clima en navbar */}
+          <ClimaOpenMeteo lat={-2.1700} lon={-79.9224} ciudad="Guayaquil" size="sm" useGeo />
+          
         </div>
       </nav>
 
       <div className="pinboard-container">
+        
+        {isReserva ? (
+          <Reserva />
+        ) : (
+          <>
         {/* ENCABEZADO - Banner principal */}
-        <div className="banner-principal">
-          <span role="img" aria-label="mapa">🗺️</span>
-          Tablero de Rutas Seguras
+        <ToastContainer />
+
+        <div className="banner-principal" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <span role="img" aria-label="mapa">🗺️</span>{' '}
+            Tablero de Rutas Seguras
+          </div>
         </div>
-        <p className="subtitulo">Descubre las mejores rutas compartidas por nuestra comunidad</p>
+  <p className="subtitulo">Descubre las mejores rutas compartidas por nuestra comunidad</p>
         
         {/* PÁGINA PRINCIPAL - Lista de rutas */}
         {pestana === "index" && (
@@ -166,6 +191,18 @@ function App() {
                   onClick={() => setFiltroActivo("Auto")}
                 >
                   🚗 Auto
+                </button>
+                <button 
+                  className={`filtro-simple ${filtroActivo === "Metro" ? "activo" : ""}`}
+                  onClick={() => setFiltroActivo("Metro")}
+                >
+                  🚇 Metro
+                </button>
+                <button 
+                  className={`filtro-simple ${filtroActivo === "Bici" ? "activo" : ""}`}
+                  onClick={() => setFiltroActivo("Bici")}
+                >
+                  🚲 Bici
                 </button>
               </div>
             </div>
@@ -208,7 +245,7 @@ function App() {
                   <div className="tarjeta-footer">
                     <div className="info-transporte">
                       <span className="icono-transporte" role="img" aria-label={pin.transporte}>
-                        {pin.transporte === "Bus" ? "🚌" : "🚗"}
+                        {{ Bus: "🚌", Auto: "🚗", Metro: "🚇", Bici: "🚲" }[pin.transporte] || "🚗"}
                       </span>
                       {pin.transporte} • {pin.fecha}
                     </div>
@@ -258,6 +295,16 @@ function App() {
           <RutasCompartidas 
             onVolver={() => setPestana("index")}
           />
+        )}
+        {/* MIS RUTAS - Listado de rutas publicadas por mí */}
+        {pestana === "misrutas" && (
+          <MisRutas 
+            rutas={misRutas}
+            onVolver={() => setPestana("index")}
+            onCrear={() => setPestana("agregar")}
+          />
+        )}
+          </>
         )}
       </div>
       

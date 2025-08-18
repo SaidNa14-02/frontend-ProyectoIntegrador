@@ -7,10 +7,11 @@ import "../styles/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import config from '../config/config.js'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [ token, setToken ] = useState(JSON.parse(localStorage.getItem("auth")) || "");
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("auth")) || "");
   const navigate = useNavigate();
 
 
@@ -19,24 +20,21 @@ const Login = () => {
     let email = e.target.email.value;
     let password = e.target.password.value;
 
-    if (email.length > 0 && password.length > 0) {
+    if (email && password) {
       const formData = {
-        email,
-        password,
-      };
+         email: email, 
+         password
+        };
       try {
-        const response = await axios.post(
-            /*
-          "Se debe colocar el http para conexion",
-          */
-          formData
-        );
-        localStorage.setItem('auth', JSON.stringify(response.data.token));
+
+        const response = await axios.post(`${config.baseUrl}/api/usuarios/login`,formData);
+        const { token} = response.data;
+        localStorage.setItem("auth", JSON.stringify(token)); 
         toast.success("Login successfull");
         navigate("/");
       } catch (err) {
         console.log(err);
-        toast.error(err.message);
+        toast.error("Credenciales inválidas o error del servidor",err);
       }
     } else {
       toast.error("Por favor llena todos los campos");
@@ -44,12 +42,13 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if(token !== ""){
+    if (token !== "") {
       toast.success("Tu estas Logeado");
       navigate("/");
     }
-  }, []);
-//refactorizar 
+  }, [token, navigate]);
+
+//refactorizando.. 
   return (
     <div className="login-main">
       <div className="login-left">

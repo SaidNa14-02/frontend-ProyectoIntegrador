@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './App.css'
 
 // COMPONENTE RUTAS COMPARTIDAS
 // Sistema de carpooling para reservar o publicar viajes
 function RutasCompartidas({ onVolver }) {
+  const navigate = useNavigate();
   // ESTADO - Gestión de datos de viajes compartidos
   const [viajes, setViajes] = useState([
     {
@@ -45,6 +47,11 @@ function RutasCompartidas({ onVolver }) {
 
   const [tipoVista, setTipoVista] = useState("todos"); // Estados: "todos", "compartir", "buscar"
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+
+  // Ir al formulario de reserva, pasando los datos del viaje por estado
+  const handleReservar = (viaje) => {
+    navigate('/reserva', { state: { viaje } });
+  };
 
   // FUNCIONALIDAD - Sistema de filtrado de viajes
   const viajesFiltrados = tipoVista === "todos" 
@@ -139,7 +146,10 @@ function RutasCompartidas({ onVolver }) {
               <button className="btn-contactar">
                 📞 Contactar
               </button>
-              <button className="btn-reservar">
+              <button
+                className="btn-reservar"
+                onClick={() => viaje.tipo === 'compartir' ? handleReservar(viaje) : alert('Responder a solicitud próximamente')}
+              >
                 {viaje.tipo === "compartir" ? "✅ Reservar" : "💬 Responder"}
               </button>
             </div>

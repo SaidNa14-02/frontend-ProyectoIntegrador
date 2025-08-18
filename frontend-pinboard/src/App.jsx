@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React,{ useState } from 'react'
 import './App.css'
 import CrearRuta from './CrearRuta'
 import RutasCompartidas from './RutasCompartidas'
@@ -61,7 +61,7 @@ function App() {
   const [pestana, setPestana] = useState("index"); // Control de navegación: "index", "agregar", "compartidas"
   const [filtroActivo, setFiltroActivo] = useState("Todos"); // Control de filtros activos
   const [openProfile, setOpenProfile] = useState(false); // Control del dropdown de perfil
-
+ 
   // FUNCIONALIDAD - Sistema de filtrado por tipo de transporte
   const rutasFiltradas = filtroActivo === "Todos" 
     ? pins 
@@ -91,6 +91,7 @@ function App() {
           Pinboard Rutas Seguras
         </div>
         <div className="nav-links">
+          
           <button 
             className="nav-link"
             onClick={() => setPestana("index")}
@@ -98,6 +99,7 @@ function App() {
             <span role="img" aria-label="casa">🏠</span>
             Inicio
           </button>
+
           <button 
             className="nav-link"
             onClick={() => alert("Funcionalidad en desarrollo")}
@@ -105,6 +107,7 @@ function App() {
             <span role="img" aria-label="mapa">🗺️</span>
             Mis Rutas
           </button>
+
           <button 
             className="nav-link"
             onClick={() => setPestana("compartidas")}
@@ -112,12 +115,14 @@ function App() {
             <span role="img" aria-label="mundo">🌍</span>
             Viajes Compartidos
           </button>
+
           <button
             className="nav-link"
             onClick={() => setPestana("agregar")}>
               <span role="img" aria-label="agregar">➕</span>
                Agregar Ruta
           </button>
+
           <button 
             className="nav-link"
             onClick={() => setOpenProfile((prev)=>!prev)}
@@ -125,12 +130,12 @@ function App() {
             <span role="img" aria-label="perfil">👤</span>
             Perfil
           </button>
-
-          {openProfile && <DropLinks />}
           {/* Clima en navbar (Open-Meteo con geolocalización y fallback Guayaquil) */}
           <ClimaOpenMeteo lat={-2.1700} lon={-79.9224} ciudad="Guayaquil" size="sm" useGeo />
           
         </div>
+
+        { openProfile && <DropLinks />}
       </nav>
 
       <div className="pinboard-container">

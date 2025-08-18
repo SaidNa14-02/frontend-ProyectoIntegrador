@@ -16,6 +16,12 @@ function AppRouter() {
             <App />
           </ProtectedRoute>
         } />
+
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
         
         {/* Rutas públicas - accesibles sin autenticación */}
         <Route path="/login" element={<Login />} />

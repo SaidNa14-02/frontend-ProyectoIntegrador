@@ -2,20 +2,39 @@ import React, { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { NavLink,Link } from 'react-router-dom';
 import '../styles/Navbar.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
 
 // #region Dropdown
-export const DropLinks= ()=>{
+export const DropLinks= ({ setOpenProfile })=>{
+  const navigate = useNavigate();
+  
+  const cerrarSesion = () => {
+    // 1. Eliminar token del localStorage
+    localStorage.removeItem('auth');
+    
+    // 2. Redirigir a login
+    navigate('/login');
+    
+    // 3. Opcional: Mostrar notificación
+    toast.success('Sesión cerrada correctamente');
+    
+    // 4. Cerrar el dropdown
+    setOpenProfile(false);
+  };
+
     return(
         <div className="perfil_dropdown">
             <ul className="elementos_perfil">
                 <li><Link to="/profile">Ver perfil</Link></li>
                 <li><Link to="#">Historial de viajes</Link></li>
                 <li><Link to="#">Historial de rutas</Link></li>
-                <li><Link to="/login">Cerrar Cession</Link></li>
-                
+                <li><button onClick={cerrarSesion}> Cerrar  Sesion</button></li>
             </ul>
         </div>
-    )
+    );
 }
 //#endregion
 

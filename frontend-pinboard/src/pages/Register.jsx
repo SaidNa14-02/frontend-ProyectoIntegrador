@@ -8,6 +8,7 @@ import "../styles/Register.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import config from '../config/config.js'
 
 
 
@@ -31,15 +32,24 @@ const Register = () => {
 
       if(password === confirmPassword){
         const formData = {
-          username: `${name} ${lastname}`,
-          email,
-          cedula,
-          password
+            nombre: name,
+            apellido: lastname,
+            correo: email,
+            cedula,
+            password
         };
 
         try{
-        const response = await axios.post("", formData);
-         toast.success("Registro Completo");
+          const response = await axios.post(`${config.baseUrl}/api/usuarios/register`, formData);
+            toast.success("Registro Completo");
+
+         // Guardar datos del usuario en localStorage
+          localStorage.setItem("user", JSON.stringify({
+              nombre: name,
+              apellido: lastname,
+              correo: email,
+              cedula
+          }));
          navigate("/login");
         }catch(err){
          toast.error(err.message);
@@ -53,7 +63,6 @@ const Register = () => {
     }else{
       toast.error("Por favor llenen todos los datos");
     }
-
 
   }
 

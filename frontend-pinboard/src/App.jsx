@@ -5,6 +5,8 @@ import RutasCompartidas from './RutasCompartidas'
 import { useNavigate } from "react-router-dom";
 import ClimaOpenMeteo from './components/ClimaOpenMeteo'
 import { DropLinks } from './pages/Navbar';
+import { ToastContainer } from 'react-toastify';
+
 
 
 // CONFIGURACIÓN - Colores para tarjetas estilo post-it
@@ -77,11 +79,7 @@ function App() {
     setPestana("index");
   };
 
-  // FUNCIONALIDAD - Logout
-  const handleLogout = () => {
-    localStorage.removeItem('auth');
-    navigate('/login');
-  };
+
   return (
     <div className="app-container">
       {/* NAVEGACIÓN - Barra superior responsive */}
@@ -125,21 +123,25 @@ function App() {
 
           <button 
             className="nav-link"
-            onClick={() => setOpenProfile((prev)=>!prev)}
+            onClick={() => setOpenProfile(true)}
           >
             <span role="img" aria-label="perfil">👤</span>
             Perfil
           </button>
+
+          {openProfile && <DropLinks setOpenProfile={setOpenProfile} />}
+
           {/* Clima en navbar (Open-Meteo con geolocalización y fallback Guayaquil) */}
           <ClimaOpenMeteo lat={-2.1700} lon={-79.9224} ciudad="Guayaquil" size="sm" useGeo />
           
         </div>
-
-        { openProfile && <DropLinks />}
       </nav>
 
       <div className="pinboard-container">
+        
         {/* ENCABEZADO - Banner principal */}
+        <ToastContainer />
+
         <div className="banner-principal" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <span role="img" aria-label="mapa">🗺️</span>{' '}

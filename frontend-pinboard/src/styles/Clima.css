@@ -1,0 +1,68 @@
+.clima-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb; 
+  background-color: #ffffff; 
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); 
+  color: #222222; 
+}
+
+.clima-badge .icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.clima-badge .info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.clima-badge .temp {
+  font-weight: 700;
+}
+
+.clima-badge .meta {
+  font-size: 12px;
+  color: #555555; 
+}
+
+.clima-badge.sm { padding: 4px 8px; }
+.clima-badge.sm .temp { font-size: 0.9rem; }
+.clima-badge.sm .meta { display: none; }
+
+.clima-badge.md { padding: 6px 10px; }
+.clima-badge.md .temp { font-size: 1rem; }
+.clima-badge.md .meta { font-size: 12px; }
+
+.clima-badge.lg { padding: 8px 12px; }
+.clima-badge.lg .temp { font-size: 1.1rem; }
+.clima-badge.lg .meta { font-size: 13px; }
+
+.clima-badge.soleado {
+  background-color: #fff4c2;
+  border-color: #ffd56a; 
+}
+
+.clima-badge.nublado {
+  background-color: #eef2f7;
+  border-color: #cfd8e3;
+}
+
+.clima-badge.lluvia {
+  background-color: #e6f3ff; 
+  border-color: #a5d0ff;
+}
+
+.clima-badge.parcial {
+  background-color: #fff0c2;
+  border-color: #f7ce63; 
+}
+
+.clima-badge:hover {
+  border-color: #9ca3af; 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}

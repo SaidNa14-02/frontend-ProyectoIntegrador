@@ -124,7 +124,7 @@ function App() {
             <span role="img" aria-label="perfil">👤</span>
             Perfil
           </button>
-          {/* Clima en navbar (Open-Meteo con geolocalización y fallback Guayaquil) */}
+          {/* Clima en navbar */}
           <ClimaOpenMeteo lat={-2.1700} lon={-79.9224} ciudad="Guayaquil" size="sm" useGeo />
           
           {/* Dropdown de perfil */}

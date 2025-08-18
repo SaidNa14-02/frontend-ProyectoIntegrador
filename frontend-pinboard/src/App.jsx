@@ -2,8 +2,10 @@ import { useState } from 'react'
 import './App.css'
 import CrearRuta from './CrearRuta'
 import RutasCompartidas from './RutasCompartidas'
-import { useNavigate } from "react-router-dom";
+import MisRutas from './pages/MisRutas'
+import { useLocation, useNavigate } from "react-router-dom";
 import ClimaOpenMeteo from './components/ClimaOpenMeteo'
+import Reserva from './pages/Reserva'
 
 
 // CONFIGURACIÓN - Colores para tarjetas estilo post-it
@@ -18,6 +20,8 @@ const coloresPostIt = [
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isReserva = location.pathname === '/reserva';
   // ESTADO - Gestión de rutas y navegación
   const [pins, setPins] = useState([
     {
@@ -57,7 +61,7 @@ function App() {
       favorito: false
     }
   ]);
-  const [pestana, setPestana] = useState("index"); // Control de navegación: "index", "agregar", "compartidas"
+  const [pestana, setPestana] = useState("index"); // Control de navegación: "index", "agregar", "compartidas", "misrutas"
   const [filtroActivo, setFiltroActivo] = useState("Todos"); // Control de filtros activos
   const [openProfile, setOpenProfile] = useState(false); // Control del dropdown de perfil
 
@@ -65,6 +69,9 @@ function App() {
   const rutasFiltradas = filtroActivo === "Todos" 
     ? pins 
     : pins.filter(pin => pin.transporte === filtroActivo);
+
+  // Derivada: mis rutas publicadas (creadas por mí en esta sesión)
+  const misRutas = pins.filter(pin => pin.own === true);
 
   // FUNCIONALIDAD - Gestión de rutas
   const agregarNuevaRuta = (nuevaRuta) => {
@@ -99,7 +106,7 @@ function App() {
           </button>
           <button 
             className="nav-link"
-            onClick={() => alert("Funcionalidad en desarrollo")}
+            onClick={() => setPestana("misrutas")}
           >
             <span role="img" aria-label="mapa">🗺️</span>
             Mis Rutas
@@ -124,7 +131,7 @@ function App() {
             <span role="img" aria-label="perfil">👤</span>
             Perfil
           </button>
-          {/* Clima en navbar (Open-Meteo con geolocalización y fallback Guayaquil) */}
+          {/* Clima en navbar */}
           <ClimaOpenMeteo lat={-2.1700} lon={-79.9224} ciudad="Guayaquil" size="sm" useGeo />
           
           {/* Dropdown de perfil */}
@@ -159,6 +166,10 @@ function App() {
       </nav>
 
       <div className="pinboard-container">
+        {isReserva ? (
+          <Reserva />
+        ) : (
+          <>
         {/* ENCABEZADO - Banner principal */}
         <div className="banner-principal" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
@@ -301,6 +312,16 @@ function App() {
           <RutasCompartidas 
             onVolver={() => setPestana("index")}
           />
+        )}
+        {/* MIS RUTAS - Listado de rutas publicadas por mí */}
+        {pestana === "misrutas" && (
+          <MisRutas 
+            rutas={misRutas}
+            onVolver={() => setPestana("index")}
+            onCrear={() => setPestana("agregar")}
+          />
+        )}
+          </>
         )}
       </div>
       

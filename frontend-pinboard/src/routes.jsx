@@ -16,6 +16,13 @@ function AppRouter() {
           </ProtectedRoute>
         } />
         
+        {/* Ruta de reserva (protegida) - usa App como layout para conservar navbar/diseño */}
+        <Route path="/reserva" element={
+          <ProtectedRoute>
+            <App />
+          </ProtectedRoute>
+        } />
+
         {/* Rutas públicas - accesibles sin autenticación */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

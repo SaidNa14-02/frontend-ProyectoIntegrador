@@ -34,7 +34,8 @@ function CrearRuta({ onAgregarRuta, onCancelar }) {
         month: 'short', 
         day: '2-digit' 
       }),
-      favorito: false
+      favorito: false,
+      own: true // marcar como creada por el usuario
     };
     
     // Comunicación con componente padre

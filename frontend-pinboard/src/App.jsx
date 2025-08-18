@@ -3,6 +3,7 @@ import './App.css'
 import CrearRuta from './CrearRuta'
 import RutasCompartidas from './RutasCompartidas'
 import { useNavigate } from "react-router-dom";
+import ClimaOpenMeteo from './components/ClimaOpenMeteo'
 
 
 // CONFIGURACIÓN - Colores para tarjetas estilo post-it
@@ -15,7 +16,6 @@ const coloresPostIt = [
   "#d1c4e9", // lila claro
 ];
 
-// COMPONENTE PRINCIPAL - App
 function App() {
   const navigate = useNavigate();
   // ESTADO - Gestión de rutas y navegación
@@ -59,6 +59,7 @@ function App() {
   ]);
   const [pestana, setPestana] = useState("index"); // Control de navegación: "index", "agregar", "compartidas"
   const [filtroActivo, setFiltroActivo] = useState("Todos"); // Control de filtros activos
+  const [openProfile, setOpenProfile] = useState(false); // Control del dropdown de perfil
 
   // FUNCIONALIDAD - Sistema de filtrado por tipo de transporte
   const rutasFiltradas = filtroActivo === "Todos" 
@@ -74,17 +75,14 @@ function App() {
   const cancelarCreacion = () => {
     setPestana("index");
   };
-  
-  //FUNCIONALIDAD -Cualquier click en la pagina devuelve a login
-  const handleClick = (e) => {
-  const comprobacionesApp = e.target.closest("button, a, input, select, textarea");
-  if (!comprobacionesApp) navigate("/login");
 
-    //FUNCIONALIDAD - Despliegue de Dropdown perfil
-    const [openProfile,setOpenProfile]=useState(false)
-};
+  // FUNCIONALIDAD - Logout
+  const handleLogout = () => {
+    localStorage.removeItem('auth');
+    navigate('/login');
+  };
   return (
-    <div className="app-container"  onClick={handleClick}>
+    <div className="app-container">
       {/* NAVEGACIÓN - Barra superior responsive */}
       <nav className="navbar">
         <div className="nav-logo">
@@ -126,16 +124,49 @@ function App() {
             <span role="img" aria-label="perfil">👤</span>
             Perfil
           </button>
+          {/* Clima en navbar (Open-Meteo con geolocalización y fallback Guayaquil) */}
+          <ClimaOpenMeteo lat={-2.1700} lon={-79.9224} ciudad="Guayaquil" size="sm" useGeo />
+          
+          {/* Dropdown de perfil */}
+          {openProfile && (
+            <div className="profile-dropdown" style={{
+              position: 'absolute',
+              top: '100%',
+              right: '0',
+              backgroundColor: 'white',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              padding: '10px',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+              zIndex: 1000
+            }}>
+              <button 
+                onClick={handleLogout}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: '8px 16px',
+                  cursor: 'pointer',
+                  color: '#ff4444'
+                }}
+              >
+                <span role="img" aria-label="logout">🚪</span>
+                Cerrar Sesión
+              </button>
+            </div>
+          )}
         </div>
       </nav>
 
       <div className="pinboard-container">
         {/* ENCABEZADO - Banner principal */}
-        <div className="banner-principal">
-          <span role="img" aria-label="mapa">🗺️</span>
-          Tablero de Rutas Seguras
+        <div className="banner-principal" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <span role="img" aria-label="mapa">🗺️</span>{' '}
+            Tablero de Rutas Seguras
+          </div>
         </div>
-        <p className="subtitulo">Descubre las mejores rutas compartidas por nuestra comunidad</p>
+  <p className="subtitulo">Descubre las mejores rutas compartidas por nuestra comunidad</p>
         
         {/* PÁGINA PRINCIPAL - Lista de rutas */}
         {pestana === "index" && (
@@ -166,6 +197,18 @@ function App() {
                   onClick={() => setFiltroActivo("Auto")}
                 >
                   🚗 Auto
+                </button>
+                <button 
+                  className={`filtro-simple ${filtroActivo === "Metro" ? "activo" : ""}`}
+                  onClick={() => setFiltroActivo("Metro")}
+                >
+                  🚇 Metro
+                </button>
+                <button 
+                  className={`filtro-simple ${filtroActivo === "Bici" ? "activo" : ""}`}
+                  onClick={() => setFiltroActivo("Bici")}
+                >
+                  🚲 Bici
                 </button>
               </div>
             </div>
@@ -208,7 +251,7 @@ function App() {
                   <div className="tarjeta-footer">
                     <div className="info-transporte">
                       <span className="icono-transporte" role="img" aria-label={pin.transporte}>
-                        {pin.transporte === "Bus" ? "🚌" : "🚗"}
+                        {{ Bus: "🚌", Auto: "🚗", Metro: "🚇", Bici: "🚲" }[pin.transporte] || "🚗"}
                       </span>
                       {pin.transporte} • {pin.fecha}
                     </div>

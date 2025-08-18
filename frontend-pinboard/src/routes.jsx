@@ -4,6 +4,7 @@ import App from "./App";
 import Login from "./pages/Login"; // ajusta la ruta según dónde esté tu componente
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
 
 function AppRouter() {
   return (
@@ -13,6 +14,12 @@ function AppRouter() {
         <Route path="/" element={
           <ProtectedRoute>
             <App />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Profile />
           </ProtectedRoute>
         } />
         

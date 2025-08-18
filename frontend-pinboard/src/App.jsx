@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import React,{ useState } from 'react'
 import './App.css'
 import CrearRuta from './CrearRuta'
 import RutasCompartidas from './RutasCompartidas'
 import MisRutas from './pages/MisRutas'
 import { useLocation, useNavigate } from "react-router-dom";
 import ClimaOpenMeteo from './components/ClimaOpenMeteo'
+import { DropLinks } from './pages/Navbar';
+import { ToastContainer } from 'react-toastify';
 import Reserva from './pages/Reserva'
+
 
 
 // CONFIGURACIÓN - Colores para tarjetas estilo post-it
@@ -64,7 +67,7 @@ function App() {
   const [pestana, setPestana] = useState("index"); // Control de navegación: "index", "agregar", "compartidas", "misrutas"
   const [filtroActivo, setFiltroActivo] = useState("Todos"); // Control de filtros activos
   const [openProfile, setOpenProfile] = useState(false); // Control del dropdown de perfil
-
+ 
   // FUNCIONALIDAD - Sistema de filtrado por tipo de transporte
   const rutasFiltradas = filtroActivo === "Todos" 
     ? pins 
@@ -83,11 +86,7 @@ function App() {
     setPestana("index");
   };
 
-  // FUNCIONALIDAD - Logout
-  const handleLogout = () => {
-    localStorage.removeItem('auth');
-    navigate('/login');
-  };
+
   return (
     <div className="app-container">
       {/* NAVEGACIÓN - Barra superior responsive */}
@@ -97,6 +96,7 @@ function App() {
           Pinboard Rutas Seguras
         </div>
         <div className="nav-links">
+          
           <button 
             className="nav-link"
             onClick={() => setPestana("index")}
@@ -104,6 +104,7 @@ function App() {
             <span role="img" aria-label="casa">🏠</span>
             Inicio
           </button>
+
           <button 
             className="nav-link"
             onClick={() => setPestana("misrutas")}
@@ -111,6 +112,7 @@ function App() {
             <span role="img" aria-label="mapa">🗺️</span>
             Mis Rutas
           </button>
+
           <button 
             className="nav-link"
             onClick={() => setPestana("compartidas")}
@@ -118,59 +120,40 @@ function App() {
             <span role="img" aria-label="mundo">🌍</span>
             Viajes Compartidos
           </button>
+
           <button
             className="nav-link"
             onClick={() => setPestana("agregar")}>
               <span role="img" aria-label="agregar">➕</span>
                Agregar Ruta
           </button>
+
           <button 
             className="nav-link"
-            onClick={() => setOpenProfile((prev)=>!prev)}
+            onClick={() => setOpenProfile(true)}
           >
             <span role="img" aria-label="perfil">👤</span>
             Perfil
           </button>
+
+          {openProfile && <DropLinks setOpenProfile={setOpenProfile} />}
+
+          {/* Clima en navbar (Open-Meteo con geolocalización y fallback Guayaquil) */}
           {/* Clima en navbar */}
           <ClimaOpenMeteo lat={-2.1700} lon={-79.9224} ciudad="Guayaquil" size="sm" useGeo />
           
-          {/* Dropdown de perfil */}
-          {openProfile && (
-            <div className="profile-dropdown" style={{
-              position: 'absolute',
-              top: '100%',
-              right: '0',
-              backgroundColor: 'white',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              padding: '10px',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              zIndex: 1000
-            }}>
-              <button 
-                onClick={handleLogout}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  padding: '8px 16px',
-                  cursor: 'pointer',
-                  color: '#ff4444'
-                }}
-              >
-                <span role="img" aria-label="logout">🚪</span>
-                Cerrar Sesión
-              </button>
-            </div>
-          )}
         </div>
       </nav>
 
       <div className="pinboard-container">
+        
         {isReserva ? (
           <Reserva />
         ) : (
           <>
         {/* ENCABEZADO - Banner principal */}
+        <ToastContainer />
+
         <div className="banner-principal" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <span role="img" aria-label="mapa">🗺️</span>{' '}

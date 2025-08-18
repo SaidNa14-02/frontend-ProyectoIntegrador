@@ -5,11 +5,13 @@ import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa6";
 import "../styles/Login.css";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { toast } from "react-toastify";
+import config from '../config/config.js'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [ token ] = useState(JSON.parse(localStorage.getItem("auth")) || "");
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("auth")) || "");
   const navigate = useNavigate();
 
 
@@ -18,24 +20,35 @@ const Login = () => {
     let email = e.target.email.value;
     let password = e.target.password.value;
 
-    if (email.length > 0 && password.length > 0) {
-      // Simulación local: guardar un token falso y navegar
-      const mockToken = "mock-dev-token";
-      localStorage.setItem('auth', JSON.stringify(mockToken));
-      toast.success("Login simulado");
-      navigate("/");
+    if (email && password) {
+      const formData = {
+         email: email, 
+         password
+        };
+      try {
+
+        const response = await axios.post(`${config.baseUrl}/api/usuarios/login`,formData);
+        const { token} = response.data;
+        localStorage.setItem("auth", JSON.stringify(token)); 
+        toast.success("Login successfull");
+        navigate("/");
+      } catch (err) {
+        console.log(err);
+        toast.error("Credenciales inválidas o error del servidor",err);
+      }
     } else {
       toast.error("Por favor llena todos los campos");
     }
   };
 
   useEffect(() => {
-    if(token !== ""){
+    if (token !== "") {
       toast.success("Tu estas Logeado");
       navigate("/");
     }
-  }, []);
-//refactorizar 
+  }, [token, navigate]);
+
+//refactorizando.. 
   return (
     <div className="login-main">
       <div className="login-left">

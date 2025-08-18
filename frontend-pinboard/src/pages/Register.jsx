@@ -8,7 +8,7 @@ import "../styles/Register.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Login from "./Login";
+import config from '../config/config.js'
 
 
 
@@ -21,27 +21,40 @@ const Register = () => {
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    let name = e.target.name.value;
-    let lastname = e.target.lastname.value;
-    let email = e.target.email.value;
-    let password = e.target.password.value;
-    let confirmPassword = e.target.confirmPassword.value;
+    const name = e.target.name.value;
+    const lastname = e.target.lastname.value;
+    const email = e.target.email.value;
+    const cedula = e.target.cedula.value;
+    const password = e.target.password.value;
+    const confirmPassword = e.target.confirmPassword.value;
 
     if(name.length > 0 && lastname.length > 0 && email.length > 0 && password.length > 0 && confirmPassword.length > 0){
 
       if(password === confirmPassword){
         const formData = {
-          username: name + " " + lastname,
-          email,
-          password
+            nombre: name,
+            apellido: lastname,
+            correo: email,
+            cedula,
+            password
         };
+
         try{
-        const response = await axios.post("/*Conexion*/", formData);
-         toast.success("Registro Completo");
+          const response = await axios.post(`${config.baseUrl}/api/usuarios/register`, formData);
+            toast.success("Registro Completo");
+
+         // Guardar datos del usuario en localStorage
+          localStorage.setItem("user", JSON.stringify({
+              nombre: name,
+              apellido: lastname,
+              correo: email,
+              cedula
+          }));
          navigate("/login");
-       }catch(err){
+        }catch(err){
          toast.error(err.message);
        }
+
       }else{
         toast.error("Contraseñas no coinciden");
       }
@@ -50,7 +63,6 @@ const Register = () => {
     }else{
       toast.error("Por favor llenen todos los datos");
     }
-
 
   }
 
@@ -77,7 +89,8 @@ const Register = () => {
             <form onSubmit={handleRegisterSubmit}>
             <input type="text" placeholder="Name" name="name" required={true} />
             <input type="text" placeholder="Lastname" name="lastname" required={true} />
-              <input type="email" placeholder="Email" name="email" required={true} />
+            <input type="text" placeholder="Cédula" name="cedula" required />
+            <input type="email" placeholder="Email" name="email" required={true} />
               <div className="pass-input-div">
                 <input type={showPassword ? "text" : "password"} placeholder="Password" name="password" required={true} />
                 {showPassword ? <FaEyeSlash onClick={() => {setShowPassword(!showPassword)}} /> : <FaEye onClick={() => {setShowPassword(!showPassword)}} />}

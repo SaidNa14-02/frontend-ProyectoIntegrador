@@ -1,6 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axiosInstance from '../api/axiosInstance';
+import { toast } from 'react-toastify';
 
-const MisRutas = ({ rutas = [], onVolver, onCrear }) => {
+const MisRutas = ({ onVolver, onCrear }) => {
+  const [rutas, setRutas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchMyRutas = async () => {
+      try {
+        setLoading(true);
+        const response = await axiosInstance.get('/api/rutas/me');
+        const mappedRutas = response.data.data.map(ruta => ({
+          id: ruta.id,
+          titulo: ruta.titulo,
+          descripcion: ruta.descripcion,
+          desde: ruta.punto_inicio,
+          hasta: ruta.punto_destino,
+          transporte: ruta.tipo_transporte,
+          fecha: new Date(ruta.created_at || Date.now()).toLocaleDateString('es-ES', { month: 'short', day: '2-digit' }),
+          favorito: false,
+          own: true,
+        }));
+        setRutas(mappedRutas);
+      } catch (err) {
+        console.error('Error al obtener mis rutas:', err.response?.data || err.message);
+        setError('Error al cargar tus rutas.');
+        toast.error('Error al cargar tus rutas: ' + (err.response?.data?.message || err.message));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMyRutas();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="rutas-compartidas-container">
+        <p>Cargando tus rutas...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="rutas-compartidas-container">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="rutas-compartidas-container">
       <div className="encabezado-compartidas">
@@ -18,8 +69,8 @@ const MisRutas = ({ rutas = [], onVolver, onCrear }) => {
         </div>
       ) : (
         <ul className="pinboard-list">
-          {rutas.map((ruta, idx) => (
-            <li key={idx} className="tarjeta-ruta">
+          {rutas.map((ruta) => (
+            <li key={ruta.id} className="tarjeta-ruta">
               <div className="tarjeta-header">
                 <h3 className="tarjeta-titulo">{ruta.titulo}</h3>
                 <span className="icono-info" role="img" aria-label="información">ℹ️</span>
@@ -44,7 +95,7 @@ const MisRutas = ({ rutas = [], onVolver, onCrear }) => {
               <div className="tarjeta-footer">
                 <div className="info-transporte">
                   <span className="icono-transporte" role="img" aria-label={ruta.transporte}>
-                    {{ Bus: '🚌', Auto: '🚗', Metro: '🚇', Bici: '🚲' }[ruta.transporte] || '🚗'}
+                    {{ 'A pie': '🚶', 'Transporte publico': '🚌', Auto: '🚗' }[ruta.transporte] || '🚗'}
                   </span>
                   {ruta.transporte} • {ruta.fecha}
                 </div>

@@ -1,0 +1,39 @@
+@import './Global.css';
+/* Estilos base para móviles de 320px a ~375px */
+
+.titulo-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  min-height: 60vh;
+  text-align: center;
+  background-color: var(--color-primario);
+  color: var(--color-terciario);
+}
+
+.titulo-home h1 {
+  font-size: 1.75rem;
+  margin: 1rem 0 0;
+  color: var(--color-secundario);
+}
+
+.tour-icon {
+  font-size: 4rem;
+  color: var(--color-secundario);
+}
+
+/* Estilos a partir de 375px (mobile‑first breakpoint) */
+@media (min-width: 375px) {
+  .titulo-home {
+    padding: 3rem 2rem;
+    min-height: 100vh;
+  }
+  .titulo-home h1 {
+    font-size: 2.25rem;
+  }
+  .tour-icon {
+    font-size: 5rem;
+  }
+}

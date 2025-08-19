@@ -1,0 +1,54 @@
+.mapa-selector-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.mapa-selector-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mapa-selector-content h3 {
+  margin-top: 0;
+  color: #333;
+  text-align: center;
+}
+
+.mapa-selector-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.mapa-selector-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.mapa-selector-actions .btn-cancelar {
+  background-color: #6c757d;
+  color: white;
+}
+
+.mapa-selector-actions .btn-cancelar:hover {
+  background-color: #5a6268;
+}

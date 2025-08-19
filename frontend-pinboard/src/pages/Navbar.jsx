@@ -10,7 +10,20 @@ import { useNavigate } from 'react-router-dom';
 // #region Dropdown
 export const DropLinks= ({ setOpenProfile })=>{
   const navigate = useNavigate();
-  
+  const dropdownRef = React.useRef(null);
+
+  React.useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenProfile(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setOpenProfile]);
+
   const cerrarSesion = () => {
     // 1. Eliminar token del localStorage
     localStorage.removeItem('auth');
@@ -25,16 +38,18 @@ export const DropLinks= ({ setOpenProfile })=>{
     setOpenProfile(false);
   };
 
-    return(
-        <div className="perfil_dropdown">
-            <ul className="elementos_perfil">
-                <li><Link to="/profile">Ver perfil</Link></li>
-                <li><Link to="#">Historial de viajes</Link></li>
-                <li><Link to="#">Historial de rutas</Link></li>
-                <li><button onClick={cerrarSesion}> Cerrar  Sesion</button></li>
-            </ul>
-        </div>
-    );
+  return(
+    <div className="perfil-dropdown-wrapper" ref={dropdownRef}>
+      <div className="perfil-dropdown">
+        <ul className="elementos_perfil">
+          <li><Link to="/profile">Ver perfil</Link></li>
+          <li><Link to="#">Historial de viajes</Link></li>
+          <li><Link to="#">Historial de rutas</Link></li>
+          <li><button onClick={cerrarSesion}> Cerrar  Sesion</button></li>
+        </ul>
+      </div>
+    </div>
+  );
 }
 //#endregion
 

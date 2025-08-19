@@ -1,3 +1,53 @@
+/* Wrapper para el dropdown de perfil */
+.perfil-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.perfil-dropdown {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  min-width: 180px;
+  padding: 8px 0;
+  z-index: 1000;
+}
+
+.elementos_perfil {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.elementos_perfil li {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.elementos_perfil li:hover {
+  background: #f0f4fa;
+}
+.elementos_perfil a {
+  text-decoration: none;
+  color: #1a237e;
+  font-weight: 500;
+}
+.elementos_perfil button {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 8px;
+}
+.elementos_perfil button:hover {
+  background: #1565c0;
+}
 .perfil-dropdown {
   position: absolute;
   top: 4.5rem;

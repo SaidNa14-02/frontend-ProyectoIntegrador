@@ -1,5 +1,5 @@
 .profile-container {
-    max-width: 600px;
+    width: 80%;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -24,9 +24,9 @@ input {
 }
 
 button {
-    margin: 5px 0;
+    margin: 30px 3px;
     padding: 10px;
-    border: none;
+    gap:40px;
     border-radius: 4px;
     background-color: #007bff;
     color: white;
@@ -34,7 +34,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #ee446f;
 }
 
 
@@ -72,7 +72,25 @@ button:hover {
 .get-avatar__label:hover {
   background-color: #0056b3;
 }
+.button-link{
+  position: fixed;      
+  bottom: 20px;         
+  left: 50%;           
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
+  z-index: 1000;    
+}
 
+.button-link:hover {
+  background-color: #f04b4b;
+}
 /* Media query para móviles (pantallas menores a 600px) */
 @media (max-width: 600px) {
   .get-avatar {
@@ -90,4 +108,33 @@ button:hover {
     width: 100%;
     text-align: center;
   }
+}
+
+
+@media (max-width: 600px) {
+    .profile-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    input, button {
+        font-size: 1rem;
+        padding: 12px;
+    }
+
+    .get-avatar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .get-avatar__preview {
+        width: 80px;
+        height: 80px;
+    }
+
+    .get-avatar__label {
+        font-size: 0.95rem;
+        padding: 10px 14px;
+    }
 }

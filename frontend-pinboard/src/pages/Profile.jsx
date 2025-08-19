@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import GetAvatar from '../Avatar.jsx';  
 import axiosInstance from '../api/axiosInstance';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
+import '../styles/Profile.css'
 
 function Profile() {
   const [avatar, setAvatar] = useState(null);
@@ -18,7 +19,6 @@ function Profile() {
     placa: '',
     capacidadvehiculo: ''
   });
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -156,12 +156,13 @@ function Profile() {
               <p><strong>Capacidad Vehículo:</strong> {user.capacidadvehiculo}</p>
             </>
           )}
-          <button onClick={() => setIsEditing(true)}>Editar</button>
-          <button onClick={handleDelete}>Eliminar</button>
-          <button onClick={() => navigate('/me/password')}>Cambiar Contraseña</button>
-        </div>
-      )}
-    </div>
+        <button onClick={() => setIsEditing(true)}>Editar</button>
+        <button onClick={handleDelete}>Eliminar</button>
+        <button onClick={() => navigate('/me/password')}>Cambiar Contraseña</button>
+        <Link to="/" className="button-link">Volver</Link>
+      </div>
+    )}
+  </div>
   );
 }
 

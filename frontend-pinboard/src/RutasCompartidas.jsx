@@ -1,72 +1,76 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './App.css'
+import axiosInstance from './api/axiosInstance';
+import { toast } from 'react-toastify';
 
-// COMPONENTE RUTAS COMPARTIDAS
-// Sistema de carpooling para reservar o publicar viajes
 function RutasCompartidas({ onVolver }) {
   const navigate = useNavigate();
-  // ESTADO - Gestión de datos de viajes compartidos
-  const [viajes, setViajes] = useState([
-    {
-      conductor: "María González",
-      desde: "Carcelén",
-      hasta: "Universidad Católica",
-      fecha: "08 Ago",
-      hora: "07:30",
-      asientos: 3,
-      precio: "$2.50",
-      tipo: "compartir",
-      auto: "Chevrolet Aveo Blanco",
-      telefono: "0998765432"
-    },
-    {
-      conductor: "Carlos Pérez",
-      desde: "El Triángulo",
-      hasta: "Centro Histórico", 
-      fecha: "08 Ago",
-      hora: "08:00",
-      asientos: 2,
-      precio: "$3.00",
-      tipo: "compartir",
-      auto: "Toyota Corolla Gris",
-      telefono: "0987654321"
-    },
-    {
-      conductor: "Ana Rodríguez",
-      desde: "Quito Norte",
-      hasta: "Valle de los Chillos",
-      fecha: "09 Ago", 
-      hora: "17:00",
-      asientos: 1,
-      precio: "$4.00",
-      tipo: "buscar",
-      descripcion: "Busco aventón para regresar del trabajo"
+  const [viajes, setViajes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const [tipoVista, setTipoVista] = useState("todos");
+
+  useEffect(() => {
+    const fetchViajes = async () => {
+      try {
+        setLoading(true);
+        const response = await axiosInstance.get('/api/viajes');
+        const mappedViajes = response.data.data.map(viaje => ({
+          id: viaje.id,
+          conductor: `${viaje.conductor_nombre} ${viaje.conductor_apellido}`,
+          desde: viaje.origen,
+          hasta: viaje.destino,
+          fecha: new Date(viaje.fecha_hora_salida).toLocaleDateString('es-ES', { month: 'short', day: '2-digit' }),
+          hora: new Date(viaje.fecha_hora_salida).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+          asientos: viaje.asientos_ofrecidos,
+          precio: "$X.XX",
+          tipo: "compartir",
+        }));
+        setViajes(mappedViajes);
+      } catch (err) {
+        console.error('Error al obtener viajes compartidos:', err.response?.data || err.message);
+        setError('Error al cargar los viajes.');
+        toast.error('Error al cargar los viajes: ' + (err.response?.data?.message || err.message));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchViajes();
+  }, []);
+
+  const handleReservar = async (viaje) => {
+    try {
+      await axiosInstance.post('/api/reservas', { viajeId: viaje.id });
+      toast.success('Reserva realizada con éxito!');
+      navigate('/reserva', { state: { viaje } });
+    } catch (err) {
+      console.error('Error al realizar la reserva:', err.response?.data || err.message);
+      toast.error('Error al realizar la reserva: ' + (err.response?.data?.message || err.message));
     }
-  ]);
-
-  const [tipoVista, setTipoVista] = useState("todos"); // Estados: "todos", "compartir", "buscar"
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
-
-  // Ir al formulario de reserva, pasando los datos del viaje por estado
-  const handleReservar = (viaje) => {
-    navigate('/reserva', { state: { viaje } });
   };
 
-  // FUNCIONALIDAD - Sistema de filtrado de viajes
   const viajesFiltrados = tipoVista === "todos" 
     ? viajes 
     : viajes.filter(viaje => viaje.tipo === tipoVista);
 
+  if (loading) {
+    return <div className="rutas-compartidas-container">Cargando viajes...</div>;
+  }
+
+  if (error) {
+    return <div className="rutas-compartidas-container">{error}</div>;
+  }
+
   return (
     <div className="rutas-compartidas-container">
-      {/* ENCABEZADO - Título de la sección */}
       <div className="encabezado-compartidas">
         <h2>🚗 Viajes Compartidos</h2>
         <p>Comparte tu auto o encuentra aventón</p>
       </div>
 
-      {/* FILTROS - Selector de tipo de viaje */}
       <div className="filtros-viajes">
         <button 
           className={`filtro-viaje ${tipoVista === "todos" ? "activo" : ""}`}
@@ -88,76 +92,66 @@ function RutasCompartidas({ onVolver }) {
         </button>
       </div>
 
-      {/* LISTA DE VIAJES - Renderizado dinámico */}
       <div className="lista-viajes">
-        {viajesFiltrados.map((viaje, index) => (
-          <div key={index} className="tarjeta-viaje">
-            {/* Información del conductor */}
-            <div className="viaje-header">
-              <div className="conductor-info">
-                <span className="conductor-nombre">👤 {viaje.conductor}</span>
-                <span className={`tipo-badge ${viaje.tipo}`}>
-                  {viaje.tipo === "compartir" ? "🚗 Ofrezco" : "🙋 Busco"}
-                </span>
+        {viajesFiltrados.length === 0 ? (
+          <p>No hay viajes disponibles en esta categoría.</p>
+        ) : (
+          viajesFiltrados.map((viaje) => (
+            <div key={viaje.id} className="tarjeta-viaje">
+              <div className="viaje-header">
+                <div className="conductor-info">
+                  <span className="conductor-nombre">👤 {viaje.conductor}</span>
+                  <span className={`tipo-badge ${viaje.tipo}`}>
+                    {viaje.tipo === "compartir" ? "🚗 Ofrezco" : "🙋 Busco"}
+                  </span>
+                </div>
+                <div className="viaje-precio">{viaje.precio}</div>
               </div>
-              <div className="viaje-precio">{viaje.precio}</div>
-            </div>
 
-            {/* Información de la ruta */}
-            <div className="ruta-viaje">
-              <div className="punto-ruta">
-                <span className="icono-desde">🔴</span>
-                <div className="info-punto">
-                  <strong>DESDE</strong>
-                  <div className="lugar">{viaje.desde}</div>
+              <div className="ruta-viaje">
+                <div className="punto-ruta">
+                  <span className="icono-desde">🔴</span>
+                  <div className="info-punto">
+                    <strong>DESDE</strong>
+                    <div className="lugar">{viaje.desde}</div>
+                  </div>
+                </div>
+                <div className="punto-ruta">
+                  <span className="icono-hasta">🟢</span>
+                  <div className="info-punto">
+                    <strong>HASTA</strong>
+                    <div className="lugar">{viaje.hasta}</div>
+                  </div>
                 </div>
               </div>
-              <div className="punto-ruta">
-                <span className="icono-hasta">🟢</span>
-                <div className="info-punto">
-                  <strong>HASTA</strong>
-                  <div className="lugar">{viaje.hasta}</div>
-                </div>
-              </div>
-            </div>
 
-            {/* Detalles del viaje */}
-            <div className="viaje-detalles">
-              <div className="detalle-item">
-                <span>📅</span> {viaje.fecha} - {viaje.hora}
-              </div>
-              {viaje.asientos && (
+              <div className="viaje-detalles">
                 <div className="detalle-item">
-                  <span>👥</span> {viaje.asientos} asientos disponibles
+                  <span>📅</span> {viaje.fecha} - {viaje.hora}
                 </div>
-              )}
-              {viaje.auto && (
-                <div className="detalle-item">
-                  <span>🚙</span> {viaje.auto}
-                </div>
-              )}
-              {viaje.descripcion && (
-                <div className="descripcion-viaje">{viaje.descripcion}</div>
-              )}
-            </div>
+                {viaje.asientos && (
+                  <div className="detalle-item">
+                    <span>👥</span> {viaje.asientos} asientos disponibles
+                  </div>
+                )}
+              </div>
 
-            {/* Botones de acción */}
-            <div className="viaje-acciones">
-              <button className="btn-contactar">
-                📞 Contactar
-              </button>
-              <button
-                className="btn-reservar"
-                onClick={() => viaje.tipo === 'compartir' ? handleReservar(viaje) : alert('Responder a solicitud próximamente')}
-              >
-                {viaje.tipo === "compartir" ? "✅ Reservar" : "💬 Responder"}
-              </button>
+              <div className="viaje-acciones">
+                <button className="btn-contactar">
+                  📞 Contactar
+                </button>
+                <button
+                  className="btn-reservar"
+                  onClick={() => handleReservar(viaje)}
+                >
+                  {viaje.tipo === "compartir" ? "✅ Reservar" : "💬 Responder"}
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
       
-      {/* Navegación de regreso */}
       <div className="contenedor-volver">
         <button className="btn-volver" onClick={onVolver}>
           ← Volver

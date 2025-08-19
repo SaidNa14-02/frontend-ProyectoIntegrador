@@ -874,4 +874,31 @@ body {
   }
 }
 
+/* Nuevas reglas para el botón de mapa */
+.input-with-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
+.input-with-button input {
+  flex-grow: 1;
+}
+
+.map-icon-button {
+  background: #1976d2; /* Color azul similar al navbar */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  font-size: 1.2rem; /* Tamaño del icono */
+}
+
+.map-icon-button:hover {
+  background: #1565c0;
+}

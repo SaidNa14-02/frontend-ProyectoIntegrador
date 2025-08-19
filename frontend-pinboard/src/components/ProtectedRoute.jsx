@@ -6,25 +6,13 @@ const ProtectedRoute = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('ProtectedRoute: Verificando autenticación...');
-    
-    // Verificar si existe un token en localStorage
     const token = localStorage.getItem('auth');
-    console.log('ProtectedRoute: Token encontrado:', token ? 'Sí' : 'No');
     
     if (token) {
-      try {
-        // Intentar parsear el token para verificar que es válido
-        const parsedToken = JSON.parse(token);
-        console.log('ProtectedRoute: Token parseado exitosamente');
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.log('ProtectedRoute: Error al parsear token, limpiando localStorage');
-        localStorage.removeItem('auth');
-        setIsAuthenticated(false);
-      }
+      // Si existe un token, consideramos al usuario autenticado en el frontend.
+      // La validación real del token la hará el backend en cada petición.
+      setIsAuthenticated(true);
     } else {
-      console.log('ProtectedRoute: No se encontró token');
       setIsAuthenticated(false);
     }
     
@@ -48,12 +36,10 @@ const ProtectedRoute = ({ children }) => {
 
   // Si no está autenticado, redirigir al login
   if (!isAuthenticated) {
-    console.log('ProtectedRoute: Usuario no autenticado, redirigiendo a login');
     return <Navigate to="/login" replace />;
   }
 
   // Si está autenticado, mostrar el contenido protegido
-  console.log('ProtectedRoute: Usuario autenticado, mostrando contenido');
   return children;
 };
 

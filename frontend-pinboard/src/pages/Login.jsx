@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import config from '../config/config.js'
+import axiosInstance from "../api/axiosInstance.js";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,19 +23,26 @@ const Login = () => {
 
     if (email && password) {
       const formData = {
-         email: email, 
+         correo: email,
          password
         };
       try {
 
-        const response = await axios.post(`${config.baseUrl}/api/usuarios/login`,formData);
-        const { token} = response.data.token;
-        localStorage.setItem("auth", JSON.stringify(token)); 
-        toast.success("Login successfull");
+        const response = await axiosInstance.post('/api/usuarios/login', formData);
+        const { token } = response.data;
+        localStorage.setItem("auth", token);
+        setToken(token);
+        toast.success("Login successful");
         navigate("/");
       } catch (err) {
+        if (err.response && err.response.data && Array.isArray(err.response.data.errors)) {
+          err.response.data.errors.forEach(error => toast.error(error.msg));
+        } else if (err.response && err.response.data && err.response.data.message) {
+          toast.error(err.response.data.message);
+        } else {
+          toast.error("Credenciales inválidas o error del servidor");
+        }
         console.log(err);
-        toast.error("Credenciales inválidas o error del servidor",err);
       }
     } else {
       toast.error("Por favor llena todos los campos");
@@ -48,7 +56,6 @@ const Login = () => {
     }
   }, [token, navigate]);
 
-//refactorizando.. 
   return (
     <div className="login-main">
       <div className="login-left">

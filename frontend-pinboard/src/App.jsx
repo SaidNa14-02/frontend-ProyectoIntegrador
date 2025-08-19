@@ -1,4 +1,5 @@
 import React,{ useState } from 'react'
+import { toast } from 'react-toastify';
 import './App.css'
 import CrearRuta from './CrearRuta'
 import RutasCompartidas from './RutasCompartidas'
@@ -22,6 +23,17 @@ const coloresPostIt = [
 ];
 
 function App() {
+  // Función para alternar favorito
+  const toggleFavorito = (index) => {
+    setPins(prevPins => prevPins.map((pin, i) => {
+      if (i === index) {
+        if (!pin.favorito) toast.success('¡Agregado a favoritos!');
+        else toast.info('Eliminado de favoritos');
+        return { ...pin, favorito: !pin.favorito };
+      }
+      return pin;
+    }));
+  };
   const navigate = useNavigate();
   const location = useLocation();
   const isReserva = location.pathname === '/reserva';
@@ -212,10 +224,11 @@ function App() {
               {rutasFiltradas.map((pin, index) => (
                 <li
                   key={index}
-                  className="tarjeta-ruta"
+                  className={`tarjeta-ruta${pin.favorito ? ' tarjeta-favorito' : ''}`}
                   style={{
-                    background: coloresPostIt[index % coloresPostIt.length],
+                    background: pin.favorito ? '#ffe082' : coloresPostIt[index % coloresPostIt.length],
                     color: "#222",
+                    border: pin.favorito ? '2px solid #ffd600' : 'none',
                   }}
                 >
                   <div className="tarjeta-header">
@@ -254,7 +267,15 @@ function App() {
                         <span role="img" aria-label="ver">👁️</span>
                         Ver Detalles
                       </button>
-                      <span className="icono-favorito" role="img" aria-label="favorito">
+                      <span
+                        className="icono-favorito"
+                        role="button"
+                        aria-label="favorito"
+                        tabIndex={0}
+                        onClick={() => toggleFavorito(index)}
+                        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && toggleFavorito(index)}
+                        style={{ cursor: 'pointer', fontSize: '22px', marginLeft: '8px' }}
+                      >
                         {pin.favorito ? "⭐" : "☆"}
                       </span>
                     </div>

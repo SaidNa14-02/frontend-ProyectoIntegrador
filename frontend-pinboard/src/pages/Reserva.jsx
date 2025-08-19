@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axiosInstance from '../api/axiosInstance';
+import { toast } from 'react-toastify';
 
 const Reserva = () => {
   const { state } = useLocation();
@@ -19,11 +21,17 @@ const Reserva = () => {
     );
   }
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    // Aquí enviarías la reserva al backend
-    alert(`Reserva enviada para ${viaje.conductor} | Asientos: ${form.asientos}`);
-    navigate('/');
+    
+    try {
+      await axiosInstance.post('/api/reservas', { viajeId: viaje.id });
+      toast.success(`Reserva exitosa para ${viaje.conductor} | Asientos: ${form.asientos}`);
+      navigate('/');
+    } catch (error) {
+      console.error('Error al realizar la reserva:', error.response?.data || error.message);
+      toast.error('Error al realizar la reserva: ' + (error.response?.data?.message || error.message));
+    }
   };
 
   return (

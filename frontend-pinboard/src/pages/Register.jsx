@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Image from "../assets/Bombilla.png";
 import Logo from "../assets/Logo.png";
@@ -10,14 +9,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import config from '../config/config.js'
 
-
-
 const Register = () => {
   const [ showPassword, setShowPassword ] = useState(false);
   const navigate = useNavigate();
   const [ token, setToken ] = useState(JSON.parse(localStorage.getItem("auth")) || "");
-
-
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
@@ -40,20 +35,19 @@ const Register = () => {
         };
 
         try{
-          const response = await axios.post(`${config.baseUrl}/api/usuarios/register`, formData);
-            toast.success("Registro Completo");
-
-         // Guardar datos del usuario en localStorage
-          localStorage.setItem("user", JSON.stringify({
-              nombre: name,
-              apellido: lastname,
-              correo: email,
-              cedula
-          }));
-         navigate("/login");
-        }catch(err){
-         toast.error(err.message);
-       }
+          const response = await axiosInstance.post('/api/usuarios/register', formData);
+          toast.success("Registro Completo. Ahora puedes iniciar sesión.");
+          navigate("/login");
+        } catch (err) {
+          if (err.response && err.response.data && Array.isArray(err.response.data.errors)) {
+            err.response.data.errors.forEach(error => toast.error(error.msg));
+          } else if (err.response && err.response.data && err.response.data.message) {
+            toast.error(err.response.data.message);
+          } else {
+            toast.error("Error en el registro. Inténtalo de nuevo.");
+          }
+          console.log(err);
+        }
 
       }else{
         toast.error("Contraseñas no coinciden");

@@ -28,7 +28,7 @@ const Login = () => {
       try {
 
         const response = await axios.post(`${config.baseUrl}/api/usuarios/login`,formData);
-        const { token} = response.data;
+        const { token} = response.data.token;
         localStorage.setItem("auth", JSON.stringify(token)); 
         toast.success("Login successfull");
         navigate("/");
